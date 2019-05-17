@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600">
-    <Canvas>
-        <Ellipse Fill="#FFF4F4F5" Height="30" Canvas.Left="{Binding Bodies[0].Coordinates.X}" Stroke="Black" Canvas.Top="{Binding Bodies[0].Coordinates.Y}" Width="30"/>
-        <Ellipse Fill="#FFF4F4F5" Height="30" Canvas.Left="{Binding Bodies[1].Coordinates.X}" Stroke="Black" Canvas.Top="{Binding Bodies[1].Coordinates.Y}" Width="30"/>
+        Title="MainWindow" Height="1000" Width="1500">
+    <Canvas Name="MainCanvas">
+        <Button Name ="AddButton" Content="Add body" Canvas.Left="10" Canvas.Top="10" Width="75" Click="AddButton_Click"/>
+        <Button Name="PauseButton" Content="Pause" Canvas.Left="10" Canvas.Top="37" Width="75" Click="PauseButton_Click" />
+        <TextBox Name="MassTextBox" Height="23" Canvas.Left="90" TextWrapping="Wrap" Text="1e47" Canvas.Top="9" Width="120"/>
+        <Label Name ="EpochLabel" Content="Epoch: " Canvas.Left="232" Canvas.Top="14"/>
     </Canvas>
 </Window>

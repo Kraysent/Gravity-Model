@@ -22,10 +22,9 @@ namespace Engine.ViewModel
             Bodies = new List<MaterialPoint>();
         }
         
-        public Session(params MaterialPoint[] bodies)
+        public Session(params MaterialPoint[] bodies) : this()
         {
-            Bodies = new List<MaterialPoint>();
-            Bodies.AddRange(bodies);
+            Add(bodies);
         }
 
         public void UpdateField(double deltaTime)
@@ -33,6 +32,8 @@ namespace Engine.ViewModel
             Vector[] forces = new Vector[_bodies.Count];
             Vector currForce, acceleration;
             int i, j;
+
+            //-------Counting forces-------//
 
             for (i = 0; i < _bodies.Count; i++)
             {
@@ -43,24 +44,44 @@ namespace Engine.ViewModel
             {
                 for (j = 0; j < _bodies.Count; j++)
                 {
-                    if (i == j)
-                    {
-                        continue;
-                    }
-
-                    currForce = MaterialPoint.GravitationalForce(_bodies[i], _bodies[j]);
+                    currForce = GravitationalForce(_bodies[i], _bodies[j]);
 
                     forces[i] += currForce;
                     forces[j] -= currForce;
                 }
             }
 
+            //-------Counting forces end-------//
+            
             for (i = 0; i < _bodies.Count; i++)
             {
                 acceleration = forces[i] / _bodies[i].Mass;
-                _bodies[i].Velocity += acceleration * deltaTime;
+                _bodies[i].Velocity = _bodies[i].Velocity + acceleration * deltaTime;
                 _bodies[i].Coordinates += _bodies[i].Velocity * deltaTime;
             }
+        }
+
+        public void Add(params MaterialPoint[] bodies)
+        {
+            foreach (MaterialPoint body in bodies)
+            {
+                _bodies.Add(body);
+            }
+        }
+
+        public static Vector GravitationalForce(MaterialPoint b1, MaterialPoint b2)
+        {
+            double forceAbs;
+            Vector forceOX;
+
+            if (b1.Coordinates == b2.Coordinates)
+                return Vector.ZeroVector();
+
+            forceAbs = MaterialPoint.G * (b1.Mass * b2.Mass) / (System.Math.Pow(b1.DistanceTo(b2), 2));
+            forceOX = new Vector(forceAbs, 0);
+            forceOX = forceOX.RotateTo(b2.Coordinates - b1.Coordinates);
+
+            return forceOX;
         }
     }
 }

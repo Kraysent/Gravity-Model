@@ -2,7 +2,7 @@
 {
     public class MaterialPoint : BaseNotificationClass
     {
-        public const double G = 6.67408e-11 /* m^3 * kg^-1 * s^-2 */;
+        public const double G = 3.35e-11; /* m^3 * kg^-1 * s^-2 */
 
         private double _mass;
         private Vector _coordinates;
@@ -35,20 +35,5 @@
         }
 
         public double DistanceTo(MaterialPoint b2) => (Coordinates - b2.Coordinates).Length;
-
-        public static Vector GravitationalForce(MaterialPoint b1, MaterialPoint b2)
-        {
-            double forceAbs;
-            Vector forceOX;
-
-            if (b1.Coordinates == b2.Coordinates)
-                return Vector.ZeroVector();
-            
-            forceAbs = G * (b1.Mass * b2.Mass) / (System.Math.Pow(b1.DistanceTo(b2), 2));
-            forceOX = new Vector(forceAbs, 0);
-            forceOX = forceOX.RotateTo(b2.Coordinates - b1.Coordinates);
-
-            return forceOX;
-        }
     }
 }

@@ -61,6 +61,5 @@ namespace Engine.Models
         public static Vector ZeroVector() => new Vector(0, 0);
         public static Vector UnitXVector() => new Vector(1, 0);
         public static Vector UnitYVector() => new Vector(0, 1);
-
     }
 }
