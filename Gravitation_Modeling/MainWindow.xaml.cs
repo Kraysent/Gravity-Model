@@ -27,27 +27,43 @@ namespace WPFUI
             InitializeComponent();
             AddButton.IsEnabled = false;
 
+            _session = SessionFactory.StartRandomSystem(100);
+            _session.BodyAdded += Session_BodyAdded;
+            _session.BodyDeleted += Session_BodyDeleted;
+            _epoch = 0;
+            _bodies = new List<Ellipse>();
+
             _timer = new DispatcherTimer();
             _timer.Tick += Timer_Tick;
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             
-            _epoch = 0;
-            _session = SessionFactory.StartRandomSystem(15);
-            _bodies = new List<Ellipse>();
-
+            //First initialisation of objects
             for (int i = 0; i < _session.Bodies.Count; i++)
             {
-                Ellipse body = new Ellipse();
-                body.Width = Math.Log10(_session.Bodies[i].Mass / 1e27) * 5;
-                body.Height = Math.Log10(_session.Bodies[i].Mass / 1e27) * 5;
-                body.Fill = Brushes.Gray;
-                body.Stroke = Brushes.Black;
-
-                _bodies.Add(body);
-                MainCanvas.Children.Add(_bodies[i]);
+                Session_BodyAdded(_session.Bodies[i]);
             }
 
             _timer.Start();
+        }
+
+        private void Session_BodyDeleted(int bodyNumber)
+        {
+            MainCanvas.Children.Remove(_bodies[bodyNumber]);
+            _bodies.RemoveAt(bodyNumber);
+        }
+
+        private void Session_BodyAdded(MaterialPoint body)
+        {
+            Ellipse ellipse = new Ellipse();
+            ellipse.Width = Math.Log10(body.Mass / 1e27) * 5;
+            ellipse.Height = Math.Log10(body.Mass / 1e27) * 5;
+            ellipse.Fill = Brushes.Gray;
+            ellipse.Stroke = Brushes.Black;
+
+            //MessageBox.Show(body.Mass.ToString());
+
+            _bodies.Add(ellipse);
+            MainCanvas.Children.Add(ellipse);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -57,6 +73,7 @@ namespace WPFUI
             _session.UpdateField(_deltaTime);
             _epoch++;
             EpochLabel.Content = $"Epoch: year {Math.Round((_epoch * _deltaTime) / (3600 * 24 * 365), 3)}";
+            BodiesLabel.Content = $"Number of bodies: {_session.Bodies.Count}";
             
             for (i = 0; i < _bodies.Count; i++)
             {

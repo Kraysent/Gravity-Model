@@ -5,6 +5,11 @@ namespace Engine.ViewModel
 {
     public class Session
     {
+        public delegate void BodyDelete(int bodyNumber);
+        public delegate void BodyAdd(MaterialPoint body);
+        public event BodyDelete BodyDeleted;
+        public event BodyAdd BodyAdded;
+        
         public List<MaterialPoint> Bodies { get; set; }
 
         public Session()
@@ -17,11 +22,21 @@ namespace Engine.ViewModel
             Add(bodies);
         }
 
+        public void Add(params MaterialPoint[] bodies)
+        {
+            foreach (MaterialPoint body in bodies)
+            {
+                Bodies.Add(body);
+                BodyAddedRaise(body);
+            }
+        }
+
         public void UpdateField(double deltaTime)
         {
             Vector[] forces = new Vector[Bodies.Count];
             Vector currForce, acceleration;
             int i, j;
+            double bodyDiameter = 5e9;
 
             //-------Counting forces-------//
 
@@ -34,10 +49,31 @@ namespace Engine.ViewModel
             {
                 for (j = 0; j < Bodies.Count; j++)
                 {
-                    currForce = GravitationalForce(Bodies[i], Bodies[j]);
+                    if (i == j) continue;
 
-                    forces[i] += currForce;
-                    forces[j] -= currForce;
+                    //Check if bodies collided
+                    if (Bodies[i].DistanceTo(Bodies[j]) < bodyDiameter)
+                    {
+                        MaterialPoint newBody = new MaterialPoint
+                        {
+                            Coordinates = Bodies[i].Coordinates,
+                            Mass = Bodies[i].Mass + Bodies[j].Mass,
+                            Velocity = (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass) /*Momentum conservation law*/
+                        };
+                        BodyAddedRaise(newBody);
+                        Bodies.Add(newBody);
+
+                        BodyDeletedRaise(i);
+                        BodyDeletedRaise(j);
+                        Bodies.RemoveAt(i);
+                        Bodies.RemoveAt(j);
+                    }
+                    else
+                    {
+                        currForce = GravitationalForce(Bodies[i], Bodies[j]);
+                        forces[i] += currForce;
+                        forces[j] -= currForce;
+                    }
                 }
             }
 
@@ -51,15 +87,7 @@ namespace Engine.ViewModel
             }
         }
 
-        public void Add(params MaterialPoint[] bodies)
-        {
-            foreach (MaterialPoint body in bodies)
-            {
-                Bodies.Add(body);
-            }
-        }
-
-        public static Vector GravitationalForce(MaterialPoint b1, MaterialPoint b2)
+        private Vector GravitationalForce(MaterialPoint b1, MaterialPoint b2)
         {
             double forceAbs;
             Vector forceOX;
@@ -72,6 +100,16 @@ namespace Engine.ViewModel
             forceOX = forceOX.RotateTo(b2.Coordinates - b1.Coordinates);
 
             return forceOX;
+        }
+
+        private void BodyDeletedRaise(int bodyNumber)
+        {
+            BodyDeleted?.Invoke(bodyNumber);
+        }
+
+        private void BodyAddedRaise(MaterialPoint body)
+        {
+            BodyAdded?.Invoke(body);
         }
     }
 }
