@@ -16,5 +16,10 @@
         }
 
         public double DistanceTo(MaterialPoint b2) => (Coordinates - b2.Coordinates).Length;
+
+        public override string ToString()
+        {
+            return $"Mass: {Mass}, Coordinates: {Coordinates}, Velocity: {Velocity}";
+        }
     }
 }

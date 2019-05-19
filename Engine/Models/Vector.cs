@@ -55,7 +55,7 @@ namespace Engine.Models
 
         public override string ToString()
         {
-            return $"X = {X}; Y = {Y}";
+            return $"X: {X}; Y: {Y}";
         }
 
         public static Vector ZeroVector() => new Vector(0, 0);

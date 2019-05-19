@@ -1,4 +1,5 @@
 ﻿using Engine.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Engine.ViewModel
@@ -60,13 +61,14 @@ namespace Engine.ViewModel
                             Mass = Bodies[i].Mass + Bodies[j].Mass,
                             Velocity = (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass) /*Momentum conservation law*/
                         };
+
+                        BodyDeletedRaise(Math.Max(i, j));
+                        BodyDeletedRaise(Math.Min(i, j));
+                        Bodies.RemoveAt(Math.Max(i, j));
+                        Bodies.RemoveAt(Math.Min(i, j));
+
                         BodyAddedRaise(newBody);
                         Bodies.Add(newBody);
-
-                        BodyDeletedRaise(i);
-                        BodyDeletedRaise(j);
-                        Bodies.RemoveAt(i);
-                        Bodies.RemoveAt(j);
                     }
                     else
                     {
