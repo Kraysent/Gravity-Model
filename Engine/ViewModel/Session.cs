@@ -59,9 +59,11 @@ namespace Engine.ViewModel
                         {
                             Coordinates = Bodies[i].Coordinates,
                             Mass = Bodies[i].Mass + Bodies[j].Mass,
-                            Velocity = (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass) /*Momentum conservation law*/
+                            /*Momentum conservation law*/
+                            Velocity = (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass) 
                         };
 
+                        //First must be deleted the last. In other cases this will cause an exception
                         BodyDeletedRaise(Math.Max(i, j));
                         BodyDeletedRaise(Math.Min(i, j));
                         Bodies.RemoveAt(Math.Max(i, j));
@@ -104,14 +106,14 @@ namespace Engine.ViewModel
             return forceOX;
         }
 
-        private void BodyDeletedRaise(int bodyNumber)
-        {
-            BodyDeleted?.Invoke(bodyNumber);
-        }
-
         private void BodyAddedRaise(MaterialPoint body)
         {
             BodyAdded?.Invoke(body);
+        }
+
+        private void BodyDeletedRaise(int bodyNumber)
+        {
+            BodyDeleted?.Invoke(bodyNumber);
         }
     }
 }

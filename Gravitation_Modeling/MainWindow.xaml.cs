@@ -1,44 +1,36 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Threading;
-using System.Collections.Generic;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using System.Windows.Controls;
+﻿using Engine.Models;
 using Engine.ViewModel;
-using Engine.Models;
-using Vector2 = Engine.Models.Vector;
-using System.Linq;
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WPFUI
 {
-    //Collisions may not work as properly as I think
-
     public partial class MainWindow : Window
     {
-        private List<Ellipse> _bodies;
-        private DispatcherTimer _timer;
-        private Session _session;
-        private double _scale = 9.5e-10;
-        private double _bias = 100;
-        private double _deltaTime = 2 * 3600;
-        private double _massScale = 1e27;
+        private readonly Session _session = SessionFactory.StartMultiCircleSystem(6e11, 2, 20);
+        private readonly List<Ellipse> _bodies = new List<Ellipse>();
+        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private const double _scale = 9.5e-10;
+        private const double _bias = 100;
+        private const double _deltaTime = 2 * 3600;
+        private const double _massScale = 1e27;
         private int _epoch;
-        private bool _isPaused = false;
+        private bool _isPaused;
         
         public MainWindow()
         {
             InitializeComponent();
-            AddButton.IsEnabled = false;
-
-            //_session = SessionFactory.StartRandomSystem(20);
-            _session = SessionFactory.StartMultiCircleSystem(6e11, 8, 100);
+            
             _session.BodyAdded += Session_BodyAdded;
             _session.BodyDeleted += Session_BodyDeleted;
 
             _epoch = 0;
-            _bodies = new List<Ellipse>();
+            _isPaused = false;
 
             //First initialisation of objects
             for (int i = 0; i < _session.Bodies.Count; i++)
@@ -46,18 +38,11 @@ namespace WPFUI
                 Session_BodyAdded(_session.Bodies[i]);
             }
             
-            _timer = new DispatcherTimer();
             _timer.Tick += Timer_Tick;
             _timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             _timer.Start();
         }
         
-        private void Session_BodyDeleted(int bodyNumber)
-        {
-            MainCanvas.Children.Remove(_bodies[bodyNumber]);
-            _bodies.RemoveAt(bodyNumber);
-        }
-
         private void Session_BodyAdded(MaterialPoint body)
         {
             Ellipse ellipse = new Ellipse();
@@ -70,8 +55,15 @@ namespace WPFUI
             MainCanvas.Children.Add(ellipse);
         }
 
+        private void Session_BodyDeleted(int bodyNumber)
+        {
+            MainCanvas.Children.Remove(_bodies[bodyNumber]);
+            _bodies.RemoveAt(bodyNumber);
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
+            Ellipse p;
             int i;
 
             try
@@ -85,7 +77,7 @@ namespace WPFUI
                 {
                     if (_epoch % 5 == 0)
                     {
-                        Ellipse p = new Ellipse();
+                        p = new Ellipse();
                         p.Width = 1;
                         p.Height = 1;
                         p.Fill = Brushes.Black;
@@ -101,33 +93,7 @@ namespace WPFUI
             }
             catch { }
         }
-
-        private void Add(MaterialPoint b)
-        {
-            _session.Add(b);
-
-            Ellipse body = new Ellipse();
-            body.Width = 10;
-            body.Height = 10;
-            body.Fill = Brushes.AliceBlue;
-            body.Stroke = Brushes.Black;
-
-            _bodies.Add(body);
-            MainCanvas.Children.Add(_bodies[_bodies.Count - 1]);
-        }
         
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            Random rnd = new Random();
-
-            Add(new MaterialPoint
-            {
-                Mass = double.Parse(MassTextBox.Text),
-                Coordinates = new Vector2(rnd.NextDouble() *  ActualWidth / _scale, rnd.NextDouble() * ActualHeight / _scale),
-                Velocity = new Vector2(rnd.NextDouble() * 1000 / _scale * Math.Pow(-1, rnd.Next(1, 4)), rnd.NextDouble() * 1000 / _scale * Math.Pow(-1, rnd.Next(1, 4)))
-            });
-        }
-
         private void PauseButton_Click(object sender, RoutedEventArgs e)
         {
             if (!_isPaused)

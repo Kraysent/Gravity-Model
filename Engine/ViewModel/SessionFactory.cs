@@ -1,9 +1,6 @@
 ﻿using Engine.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Engine.ViewModel
 {
@@ -110,7 +107,7 @@ namespace Engine.ViewModel
         public static Session StartMultiCircleSystem(double radius, int numberOfCircles, int numberOfBodies)
         {
             int i, j;
-            double velocity = 0;
+            double velocity = 0, center = 5e11, mass = 2e30;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (j = 0; j < numberOfCircles; j++)
@@ -119,8 +116,8 @@ namespace Engine.ViewModel
                 {
                     bodies.Add(new MaterialPoint
                     {
-                        Coordinates = new Vector(5e11 + radius * (j + 1) / numberOfCircles  * Math.Sin(2 * Math.PI / numberOfBodies * i), 5e11 + radius * (j + 1) / numberOfCircles * Math.Cos(2 * Math.PI / numberOfBodies * i)),
-                        Mass = 2e30,
+                        Coordinates = new Vector(center + radius * (j + 1) / numberOfCircles  * Math.Sin(2 * Math.PI / numberOfBodies * i), center + radius * (j + 1) / numberOfCircles * Math.Cos(2 * Math.PI / numberOfBodies * i)),
+                        Mass = mass,
                         Velocity = new Vector(velocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -velocity * Math.Sin(2 * Math.PI / numberOfBodies * i))
                     });
                 }
