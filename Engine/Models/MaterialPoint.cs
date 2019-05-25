@@ -9,11 +9,18 @@
         public Vector Coordinates { get; set; }
         public Vector Velocity { get; set; }
 
-        public MaterialPoint()
+        //public MaterialPoint()
+        //{
+        //    Coordinates = new Vector(0, 0);
+        //    Mass = 0;
+        //    Velocity = new Vector(0, 0);
+        //}
+
+        public MaterialPoint(Vector coordinates, double mass, Vector velocity)
         {
-            Coordinates = new Vector(0, 0);
-            Mass = 0;
-            Velocity = new Vector(0, 0);
+            Coordinates = coordinates;
+            Mass = mass;
+            Velocity = velocity;
         }
 
         public double DistanceTo(MaterialPoint b2) => (Coordinates - b2.Coordinates).Length;

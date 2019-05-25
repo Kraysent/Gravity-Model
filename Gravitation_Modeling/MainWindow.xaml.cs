@@ -17,7 +17,7 @@ namespace WPFUI
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private const double _scale = 1e-9;
         private const double _bias = 100;
-        private double _deltaTime = 4 * 3600;
+        private const double _deltaTime = 4 * 3600;
         private const double _massScale = 1e21;
         private const int _speed = 1;
         private int _epoch;

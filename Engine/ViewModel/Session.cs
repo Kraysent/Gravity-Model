@@ -59,13 +59,12 @@ namespace Engine.ViewModel
                         //Check if bodies collided
                         if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter * 2)
                         {
-                            MaterialPoint newBody = new MaterialPoint
-                            {
-                                Coordinates = Bodies[i].Coordinates,
-                                Mass = Bodies[i].Mass + Bodies[j].Mass,
+                            MaterialPoint newBody = new MaterialPoint(
+                                coordinates: Bodies[i].Coordinates,
+                                mass: Bodies[i].Mass + Bodies[j].Mass,
                                 /*Momentum conservation law*/
-                                Velocity = (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass)
-                            };
+                                velocity: (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass)
+                            );
 
                             //First must be deleted the last. In other cases this will cause an exception
                             BodyDeletedRaise(Math.Max(i, j));
