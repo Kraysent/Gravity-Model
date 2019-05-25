@@ -3,6 +3,7 @@
     public enum CollisionType
     {
         InelasticCollisions,
+        ElasticCollisions,
         NoCollisions
     }
 }

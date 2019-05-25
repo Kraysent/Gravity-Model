@@ -57,7 +57,7 @@ namespace Engine.ViewModel
                     if (CollisionsType == CollisionType.InelasticCollisions)
                     {
                         //Check if bodies collided
-                        if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter)
+                        if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter * 2)
                         {
                             MaterialPoint newBody = new MaterialPoint
                             {
@@ -75,6 +75,24 @@ namespace Engine.ViewModel
 
                             BodyAddedRaise(newBody);
                             Bodies.Add(newBody);
+                        }
+                        else
+                        {
+                            currForce = GravitationalForce(Bodies[i], Bodies[j]);
+                            forces[i] += currForce;
+                            forces[j] -= currForce;
+                        }
+                    }
+                    else if (CollisionsType == CollisionType.ElasticCollisions)
+                    {
+                        //Check if bodies collided
+                        if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter * 2)
+                        {
+                            double m1 = Bodies[i].Mass, m2 = Bodies[j].Mass;
+                            Vector v1 = Bodies[i].Velocity, v2 = Bodies[j].Velocity;
+
+                            Bodies[i].Velocity = (m1 - m2) / (m1 + m2) * (v1 - v2) + v2;
+                            Bodies[j].Velocity = (2 * m1 * v1) / (m1 + m2) + v2;
                         }
                         else
                         {

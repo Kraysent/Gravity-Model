@@ -25,6 +25,7 @@ namespace Engine.Models
         public static Vector operator -(Vector v1, Vector v2) => v1 + (-v2);
         public static Vector operator -(Vector v) => new Vector(-v.X, -v.Y);
         public static Vector operator *(Vector v, double n) => new Vector(v.X * n, v.Y * n);
+        public static Vector operator *(double n, Vector v) => v * n;
         public static Vector operator /(Vector v, double n)
         {
             if (n == 0)
