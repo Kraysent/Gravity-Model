@@ -12,14 +12,14 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
-        private readonly Session _session = SessionFactory.StartTestSystem();
+        private readonly Session _session = SessionFactory.StartRandomSystem(100);
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private const double _scale = 1e-9;
-        private const double _bias = 500;
-        private const double _deltaTime = 4 * 3600;
+        private const double _bias = 100;
+        private const double _deltaTime = 2 * 3600;
         private const double _massScale = 1e21;
-        private const int _speed = 2;
+        private const int _speed = 4;
         private int _epoch;
         private bool _isPaused;
         
@@ -47,8 +47,18 @@ namespace WPFUI
         private void Session_BodyAdded(MaterialPoint body)
         {
             Ellipse ellipse = new Ellipse();
-            ellipse.Width = Math.Log10(body.Mass / _massScale) * 2;
-            ellipse.Height = Math.Log10(body.Mass / _massScale) * 2;
+
+            if (body is PhysicalBody)
+            {
+                ellipse.Width = Math.Log(((PhysicalBody)body).Diameter);
+                ellipse.Height = Math.Log(((PhysicalBody)body).Diameter);
+            }
+            else
+            {
+                ellipse.Width = Math.Log10(body.Mass / _massScale) * 2;
+                ellipse.Height = Math.Log10(body.Mass / _massScale) * 2;
+            }
+
             ellipse.Fill = Brushes.Gray;
             ellipse.Stroke = Brushes.Black;
             

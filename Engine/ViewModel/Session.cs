@@ -1,6 +1,7 @@
 ﻿using Engine.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Engine.ViewModel
 {
@@ -12,12 +13,11 @@ namespace Engine.ViewModel
         public event BodyAdd BodyAdded;
 
         public CollisionType CollisionsType { get; set; }
-        public double BodyDiameter { get; set; }
+        //public double BodyDiameter { get; set; }
         public List<MaterialPoint> Bodies { get; set; }
 
         public Session(double bodyDiameter = 5e9, CollisionType collisionType = CollisionType.InelasticCollisions)
         {
-            BodyDiameter = bodyDiameter;
             Bodies = new List<MaterialPoint>();
         }
         
@@ -59,13 +59,15 @@ namespace Engine.ViewModel
                         //Check if bodies collided
                         if (Bodies[i] is PhysicalBody && Bodies[j] is PhysicalBody)
                         {
-                            if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter * 2)
+                            if (Bodies[i].DistanceTo(Bodies[j]) < ((PhysicalBody)Bodies[i]).Diameter + ((PhysicalBody)Bodies[j]).Diameter)
                             {
-                                MaterialPoint newBody = new MaterialPoint(
+                                MaterialPoint newBody = new PhysicalBody(
                                     coordinates: Bodies[i].Coordinates,
                                     mass: Bodies[i].Mass + Bodies[j].Mass,
                                     /*Momentum conservation law*/
-                                    velocity: (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass)
+                                    velocity: (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass),
+                                    /*Sum of volumes*/
+                                    diameter: Math.Pow(Math.Pow(((PhysicalBody)Bodies[i]).Diameter, 3) + Math.Pow(((PhysicalBody)Bodies[j]).Diameter, 3), (double)1 / 3)
                                 );
 
                                 //First must be deleted the last. In other cases this will cause an exception

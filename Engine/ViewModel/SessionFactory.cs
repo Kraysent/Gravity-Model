@@ -45,10 +45,11 @@ namespace Engine.ViewModel
 
             for (i = 0; i < numberOfObjects; i++)
             {
-                bodies.Add(new MaterialPoint(
+                bodies.Add(new PhysicalBody(
                     coordinates: new Vector(rnd.NextDouble() * coordsScale, rnd.NextDouble() * coordsScale),
                     mass: rnd.NextDouble() * massScale,
-                    velocity: new Vector(rnd.NextDouble() * Math.Pow(-1, rnd.Next(1, 4)) * velocityScale, rnd.NextDouble() * Math.Pow(-1, rnd.Next(1, 4)) * velocityScale)
+                    velocity: new Vector(rnd.NextDouble() * Math.Pow(-1, rnd.Next(1, 4)) * velocityScale, rnd.NextDouble() * Math.Pow(-1, rnd.Next(1, 4)) * velocityScale),
+                    diameter: 2e9
                 ));
             }
 
@@ -135,15 +136,15 @@ namespace Engine.ViewModel
                 currRadius = Math.Abs(radiusScale * (rnd1.NextDouble() / 5 + 0.6));
                 currVelocity = Math.Sqrt(MaterialPoint.G * 0.5 * massScale * numberOfBodies / radiusScale);
 
-                bodies.Add(new MaterialPoint(
+                bodies.Add(new PhysicalBody(
                     coordinates: new Vector(currRadius * Math.Sin(2 * Math.PI / numberOfBodies * i), currRadius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
                     mass: rnd.NextDouble() * massScale,
-                    velocity: new Vector(currVelocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -currVelocity * Math.Sin(2 * Math.PI / numberOfBodies * i))
+                    velocity: new Vector(currVelocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -currVelocity * Math.Sin(2 * Math.PI / numberOfBodies * i)),
+                    diameter: 5e13
                 ));
             }
 
             result = new Session(bodies.ToArray());
-            result.BodyDiameter = 5e13;
 
             return result;
         }
