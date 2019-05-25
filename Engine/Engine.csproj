@@ -47,6 +47,7 @@
     <Compile Include="Models\MaterialPoint.cs" />
     <Compile Include="Models\Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\CollisionType.cs" />
     <Compile Include="ViewModel\Session.cs" />
     <Compile Include="ViewModel\SessionFactory.cs" />
   </ItemGroup>

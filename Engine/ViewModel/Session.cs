@@ -11,10 +11,11 @@ namespace Engine.ViewModel
         public event BodyDelete BodyDeleted;
         public event BodyAdd BodyAdded;
 
+        public CollisionType CollisionsType { get; set; }
         public double BodyDiameter { get; set; }
         public List<MaterialPoint> Bodies { get; set; }
 
-        public Session(double bodyDiameter = 5e9)
+        public Session(double bodyDiameter = 5e9, CollisionType collisionType = CollisionType.InelasticCollisions)
         {
             BodyDiameter = bodyDiameter;
             Bodies = new List<MaterialPoint>();
@@ -53,27 +54,36 @@ namespace Engine.ViewModel
                 {
                     if (i == j) continue;
 
-                    //Check if bodies collided
-                    if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter)
+                    if (CollisionsType == CollisionType.InelasticCollisions)
                     {
-                        MaterialPoint newBody = new MaterialPoint
+                        //Check if bodies collided
+                        if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter)
                         {
-                            Coordinates = Bodies[i].Coordinates,
-                            Mass = Bodies[i].Mass + Bodies[j].Mass,
-                            /*Momentum conservation law*/
-                            Velocity = (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass) 
-                        };
+                            MaterialPoint newBody = new MaterialPoint
+                            {
+                                Coordinates = Bodies[i].Coordinates,
+                                Mass = Bodies[i].Mass + Bodies[j].Mass,
+                                /*Momentum conservation law*/
+                                Velocity = (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass)
+                            };
 
-                        //First must be deleted the last. In other cases this will cause an exception
-                        BodyDeletedRaise(Math.Max(i, j));
-                        BodyDeletedRaise(Math.Min(i, j));
-                        Bodies.RemoveAt(Math.Max(i, j));
-                        Bodies.RemoveAt(Math.Min(i, j));
+                            //First must be deleted the last. In other cases this will cause an exception
+                            BodyDeletedRaise(Math.Max(i, j));
+                            BodyDeletedRaise(Math.Min(i, j));
+                            Bodies.RemoveAt(Math.Max(i, j));
+                            Bodies.RemoveAt(Math.Min(i, j));
 
-                        BodyAddedRaise(newBody);
-                        Bodies.Add(newBody);
+                            BodyAddedRaise(newBody);
+                            Bodies.Add(newBody);
+                        }
+                        else
+                        {
+                            currForce = GravitationalForce(Bodies[i], Bodies[j]);
+                            forces[i] += currForce;
+                            forces[j] -= currForce;
+                        }
                     }
-                    else
+                    else if (CollisionsType == CollisionType.NoCollisions)
                     {
                         currForce = GravitationalForce(Bodies[i], Bodies[j]);
                         forces[i] += currForce;
