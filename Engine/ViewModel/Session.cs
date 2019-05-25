@@ -1,7 +1,6 @@
 ﻿using Engine.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Engine.ViewModel
 {
@@ -13,11 +12,11 @@ namespace Engine.ViewModel
         public event BodyAdd BodyAdded;
 
         public CollisionType CollisionsType { get; set; }
-        //public double BodyDiameter { get; set; }
         public List<MaterialPoint> Bodies { get; set; }
 
-        public Session(double bodyDiameter = 5e9, CollisionType collisionType = CollisionType.InelasticCollisions)
+        public Session(CollisionType collisionType = CollisionType.InelasticCollisions)
         {
+            CollisionsType = collisionType;
             Bodies = new List<MaterialPoint>();
         }
         
@@ -40,8 +39,9 @@ namespace Engine.ViewModel
             Vector[] forces = new Vector[Bodies.Count];
             Vector currForce, acceleration;
             int i, j;
+            bool countingNeeded = true;
 
-            //-------Counting forces-------//
+            /*-------Counting forces-------*/
 
             for (i = 0; i < Bodies.Count; i++)
             {
@@ -56,7 +56,7 @@ namespace Engine.ViewModel
 
                     if (CollisionsType == CollisionType.InelasticCollisions)
                     {
-                        //Check if bodies collided
+                        /*Check if bodies collided*/
                         if (Bodies[i] is PhysicalBody && Bodies[j] is PhysicalBody)
                         {
                             if (Bodies[i].DistanceTo(Bodies[j]) < ((PhysicalBody)Bodies[i]).Diameter + ((PhysicalBody)Bodies[j]).Diameter)
@@ -70,7 +70,7 @@ namespace Engine.ViewModel
                                     diameter: Math.Pow(Math.Pow(((PhysicalBody)Bodies[i]).Diameter, 3) + Math.Pow(((PhysicalBody)Bodies[j]).Diameter, 3), (double)1 / 3)
                                 );
 
-                                //First must be deleted the last. In other cases this will cause an exception
+                                /*First must be deleted the last. In other cases this will cause an exception*/
                                 BodyDeletedRaise(Math.Max(i, j));
                                 BodyDeletedRaise(Math.Min(i, j));
                                 Bodies.RemoveAt(Math.Max(i, j));
@@ -78,24 +78,14 @@ namespace Engine.ViewModel
 
                                 BodyAddedRaise(newBody);
                                 Bodies.Add(newBody);
+
+                                countingNeeded = false;
                             }
-                            else
-                            {
-                                currForce = GravitationalForce(Bodies[i], Bodies[j]);
-                                forces[i] += currForce;
-                                forces[j] -= currForce;
-                            }
-                        }
-                        else
-                        {
-                            currForce = GravitationalForce(Bodies[i], Bodies[j]);
-                            forces[i] += currForce;
-                            forces[j] -= currForce;
                         }
                     }
                     else if (CollisionsType == CollisionType.ElasticCollisions)
                     {
-                        //Check if bodies collided
+                        /*Check if bodies collided*/
                         if (Bodies[i] is PhysicalBody && Bodies[j] is PhysicalBody)
                         {
                             if (Bodies[i].DistanceTo(Bodies[j]) < ((PhysicalBody)Bodies[i]).Diameter + ((PhysicalBody)Bodies[j]).Diameter)
@@ -106,22 +96,13 @@ namespace Engine.ViewModel
                                 //Momentum conservation law
                                 Bodies[i].Velocity = (m1 - m2) / (m1 + m2) * (v1 - v2) + v2;
                                 Bodies[j].Velocity = (2 * m1 * v1) / (m1 + m2) + v2;
+
+                                countingNeeded = false;
                             }
-                            else
-                            {
-                                currForce = GravitationalForce(Bodies[i], Bodies[j]);
-                                forces[i] += currForce;
-                                forces[j] -= currForce;
-                            }
-                        }
-                        else
-                        {
-                            currForce = GravitationalForce(Bodies[i], Bodies[j]);
-                            forces[i] += currForce;
-                            forces[j] -= currForce;
                         }
                     }
-                    else if (CollisionsType == CollisionType.NoCollisions)
+
+                    if (countingNeeded)
                     {
                         currForce = GravitationalForce(Bodies[i], Bodies[j]);
                         forces[i] += currForce;
@@ -130,7 +111,7 @@ namespace Engine.ViewModel
                 }
             }
 
-            //-------Counting forces end-------//
+            /*-------Counting forces end-------*/
             
             for (i = 0; i < Bodies.Count; i++)
             {
@@ -148,7 +129,7 @@ namespace Engine.ViewModel
             if (b1.Coordinates == b2.Coordinates)
                 return Vector.ZeroVector();
 
-            forceAbs = MaterialPoint.G * (b1.Mass * b2.Mass) / (System.Math.Pow(b1.DistanceTo(b2), 2));
+            forceAbs = MaterialPoint.G * (b1.Mass * b2.Mass) / (Math.Pow(b1.DistanceTo(b2), 2));
             forceOX = new Vector(forceAbs, 0);
             forceOX = forceOX.RotateTo(b2.Coordinates - b1.Coordinates);
 

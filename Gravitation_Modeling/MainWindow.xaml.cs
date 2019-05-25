@@ -29,7 +29,7 @@ namespace WPFUI
 
             _session.BodyAdded += Session_BodyAdded;
             _session.BodyDeleted += Session_BodyDeleted;
-            _session.CollisionsType = CollisionType.InelasticCollisions;
+            _session.CollisionsType = CollisionType.ElasticCollisions;
             _epoch = 0;
             _isPaused = false;
 
