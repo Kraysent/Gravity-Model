@@ -15,18 +15,18 @@ namespace WPFUI
         private readonly Session _session = SessionFactory.StartGalaxySystem(100);
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
-        private const double _scale = 5e-11;
+        private const double _scale = 5e-14;
         private const double _bias = 500;
-        private const double _deltaTime = 12 * 3600;
+        private double _deltaTime = 3600 * 24 * 365;
         private const double _massScale = 1e21;
-        private const int _speed = 6;
+        private const int _speed = 1;
         private int _epoch;
         private bool _isPaused;
         
         public MainWindow()
         {
             InitializeComponent();
-            
+
             _session.BodyAdded += Session_BodyAdded;
             _session.BodyDeleted += Session_BodyDeleted;
 

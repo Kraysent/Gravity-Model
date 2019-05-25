@@ -129,13 +129,14 @@ namespace Engine.ViewModel
         public static Session StartGalaxySystem(int numberOfBodies)
         {
             int i;
+            Session result = new Session();
             NormalRandom rnd1 = new NormalRandom();
-            double radiusScale = 1e13, currVelocity, currRadius, massScale = 6e30;
+            double radiusScale = 1e16, currVelocity, currRadius, massScale = 2e30;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (i = 0; i < numberOfBodies; i++)
             {
-                currRadius = Math.Abs(radiusScale * rnd1.NextDouble());
+                currRadius = Math.Abs(radiusScale * (rnd1.NextDouble() / 5 + 0.6));
                 currVelocity = Math.Sqrt(MaterialPoint.G * 0.5 * massScale * numberOfBodies / radiusScale);
 
                 bodies.Add(new MaterialPoint
@@ -146,7 +147,10 @@ namespace Engine.ViewModel
                 });
             }
 
-            return new Session(bodies.ToArray());
+            result = new Session(bodies.ToArray());
+            result.BodyDiameter = 5e13;
+
+            return result;
         }
 
         private class NormalRandom : Random

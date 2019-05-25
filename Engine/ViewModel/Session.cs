@@ -10,11 +10,13 @@ namespace Engine.ViewModel
         public delegate void BodyAdd(MaterialPoint body);
         public event BodyDelete BodyDeleted;
         public event BodyAdd BodyAdded;
-        
+
+        public double BodyDiameter { get; set; }
         public List<MaterialPoint> Bodies { get; set; }
 
-        public Session()
+        public Session(double bodyDiameter = 5e9)
         {
+            BodyDiameter = bodyDiameter;
             Bodies = new List<MaterialPoint>();
         }
         
@@ -22,7 +24,7 @@ namespace Engine.ViewModel
         {
             Add(bodies);
         }
-
+        
         public void Add(params MaterialPoint[] bodies)
         {
             foreach (MaterialPoint body in bodies)
@@ -37,7 +39,6 @@ namespace Engine.ViewModel
             Vector[] forces = new Vector[Bodies.Count];
             Vector currForce, acceleration;
             int i, j;
-            double bodyDiameter = 5e9;
 
             //-------Counting forces-------//
 
@@ -53,7 +54,7 @@ namespace Engine.ViewModel
                     if (i == j) continue;
 
                     //Check if bodies collided
-                    if (Bodies[i].DistanceTo(Bodies[j]) < bodyDiameter)
+                    if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter)
                     {
                         MaterialPoint newBody = new MaterialPoint
                         {
