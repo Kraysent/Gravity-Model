@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Engine.Models
+﻿namespace Engine.Models
 {
-    //class PhysicalBody : MaterialPoint
-    //{
+    public class PhysicalBody : MaterialPoint
+    {
+        public double Diameter { get; set; }
 
-    //}
+        public PhysicalBody(Vector coordinates, double mass, Vector velocity, double diameter) : base(coordinates, mass, velocity)
+        {
+            Diameter = diameter;
+        }
+    }
 }

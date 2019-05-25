@@ -12,14 +12,14 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
-        private readonly Session _session = SessionFactory.StartSquareSystem();
+        private readonly Session _session = SessionFactory.StartTestSystem();
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private const double _scale = 1e-9;
-        private const double _bias = 100;
+        private const double _bias = 500;
         private const double _deltaTime = 4 * 3600;
         private const double _massScale = 1e21;
-        private const int _speed = 1;
+        private const int _speed = 2;
         private int _epoch;
         private bool _isPaused;
         
@@ -29,7 +29,7 @@ namespace WPFUI
 
             _session.BodyAdded += Session_BodyAdded;
             _session.BodyDeleted += Session_BodyDeleted;
-            _session.CollisionsType = CollisionType.ElasticCollisions;
+            _session.CollisionsType = CollisionType.InelasticCollisions;
             _epoch = 0;
             _isPaused = false;
 

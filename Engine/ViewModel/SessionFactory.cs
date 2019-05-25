@@ -58,8 +58,8 @@ namespace Engine.ViewModel
         public static Session StartTestSystem()
         {
             return new Session(
-               new MaterialPoint(coordinates: new Vector(0, 0), mass: 2e30, velocity: new Vector(0, 0)),
-               new MaterialPoint(coordinates: new Vector(1.5e12, 0), mass: 6e29, velocity: new Vector(-100000, 0))
+               new PhysicalBody(coordinates: new Vector(0, 0), mass: 2e30, velocity: new Vector(0, 0), diameter: 4e9),
+               new PhysicalBody(coordinates: new Vector(1.5e12, 0), mass: 6e29, velocity: new Vector(-100000, 0), diameter: 4e9)
                );
         }
 
@@ -150,21 +150,17 @@ namespace Engine.ViewModel
 
         private class NormalRandom : Random
         {
-            // сохранённое предыдущее значение
             double prevSample = double.NaN;
 
             protected override double Sample()
             {
-                // есть предыдущее значение? возвращаем его
                 if (!double.IsNaN(prevSample))
                 {
                     double result = prevSample;
                     prevSample = double.NaN;
                     return result;
                 }
-
-                // нет? вычисляем следующие два
-                // Marsaglia polar method из википедии
+                
                 double u, v, s;
                 do
                 {

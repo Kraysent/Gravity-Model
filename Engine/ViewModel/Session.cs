@@ -57,23 +57,32 @@ namespace Engine.ViewModel
                     if (CollisionsType == CollisionType.InelasticCollisions)
                     {
                         //Check if bodies collided
-                        if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter * 2)
+                        if (Bodies[i] is PhysicalBody && Bodies[j] is PhysicalBody)
                         {
-                            MaterialPoint newBody = new MaterialPoint(
-                                coordinates: Bodies[i].Coordinates,
-                                mass: Bodies[i].Mass + Bodies[j].Mass,
-                                /*Momentum conservation law*/
-                                velocity: (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass)
-                            );
+                            if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter * 2)
+                            {
+                                MaterialPoint newBody = new MaterialPoint(
+                                    coordinates: Bodies[i].Coordinates,
+                                    mass: Bodies[i].Mass + Bodies[j].Mass,
+                                    /*Momentum conservation law*/
+                                    velocity: (Bodies[i].Velocity * Bodies[i].Mass + Bodies[j].Velocity * Bodies[j].Mass) / (Bodies[i].Mass + Bodies[j].Mass)
+                                );
 
-                            //First must be deleted the last. In other cases this will cause an exception
-                            BodyDeletedRaise(Math.Max(i, j));
-                            BodyDeletedRaise(Math.Min(i, j));
-                            Bodies.RemoveAt(Math.Max(i, j));
-                            Bodies.RemoveAt(Math.Min(i, j));
+                                //First must be deleted the last. In other cases this will cause an exception
+                                BodyDeletedRaise(Math.Max(i, j));
+                                BodyDeletedRaise(Math.Min(i, j));
+                                Bodies.RemoveAt(Math.Max(i, j));
+                                Bodies.RemoveAt(Math.Min(i, j));
 
-                            BodyAddedRaise(newBody);
-                            Bodies.Add(newBody);
+                                BodyAddedRaise(newBody);
+                                Bodies.Add(newBody);
+                            }
+                            else
+                            {
+                                currForce = GravitationalForce(Bodies[i], Bodies[j]);
+                                forces[i] += currForce;
+                                forces[j] -= currForce;
+                            }
                         }
                         else
                         {
@@ -85,13 +94,23 @@ namespace Engine.ViewModel
                     else if (CollisionsType == CollisionType.ElasticCollisions)
                     {
                         //Check if bodies collided
-                        if (Bodies[i].DistanceTo(Bodies[j]) < BodyDiameter * 2)
+                        if (Bodies[i] is PhysicalBody && Bodies[j] is PhysicalBody)
                         {
-                            double m1 = Bodies[i].Mass, m2 = Bodies[j].Mass;
-                            Vector v1 = Bodies[i].Velocity, v2 = Bodies[j].Velocity;
+                            if (Bodies[i].DistanceTo(Bodies[j]) < ((PhysicalBody)Bodies[i]).Diameter + ((PhysicalBody)Bodies[j]).Diameter)
+                            {
+                                double m1 = Bodies[i].Mass, m2 = Bodies[j].Mass;
+                                Vector v1 = Bodies[i].Velocity, v2 = Bodies[j].Velocity;
 
-                            Bodies[i].Velocity = (m1 - m2) / (m1 + m2) * (v1 - v2) + v2;
-                            Bodies[j].Velocity = (2 * m1 * v1) / (m1 + m2) + v2;
+                                //Momentum conservation law
+                                Bodies[i].Velocity = (m1 - m2) / (m1 + m2) * (v1 - v2) + v2;
+                                Bodies[j].Velocity = (2 * m1 * v1) / (m1 + m2) + v2;
+                            }
+                            else
+                            {
+                                currForce = GravitationalForce(Bodies[i], Bodies[j]);
+                                forces[i] += currForce;
+                                forces[j] -= currForce;
+                            }
                         }
                         else
                         {
