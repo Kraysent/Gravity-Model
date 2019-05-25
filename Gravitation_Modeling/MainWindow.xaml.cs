@@ -12,13 +12,14 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
-        private readonly Session _session = SessionFactory.StartMultiCircleSystem(6e11, 2, 20);
+        private readonly Session _session = SessionFactory.StartGalaxySystem(100);
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
-        private const double _scale = 9.5e-10;
-        private const double _bias = 100;
-        private const double _deltaTime = 2 * 3600;
-        private const double _massScale = 1e27;
+        private const double _scale = 5e-11;
+        private const double _bias = 500;
+        private const double _deltaTime = 12 * 3600;
+        private const double _massScale = 1e21;
+        private const int _speed = 6;
         private int _epoch;
         private bool _isPaused;
         
@@ -46,8 +47,8 @@ namespace WPFUI
         private void Session_BodyAdded(MaterialPoint body)
         {
             Ellipse ellipse = new Ellipse();
-            ellipse.Width = Math.Log10(body.Mass / _massScale) * 5;
-            ellipse.Height = Math.Log10(body.Mass / _massScale) * 5;
+            ellipse.Width = Math.Log10(body.Mass / _massScale) * 2;
+            ellipse.Height = Math.Log10(body.Mass / _massScale) * 2;
             ellipse.Fill = Brushes.Gray;
             ellipse.Stroke = Brushes.Black;
             
@@ -68,8 +69,12 @@ namespace WPFUI
 
             try
             {
-                _session.UpdateField(_deltaTime);
-                _epoch++;
+                for (i = 0; i < _speed; i++)
+                {
+                    _session.UpdateField(_deltaTime);
+                    _epoch++;
+                }
+
                 EpochLabel.Content = $"Epoch: year {Math.Round((_epoch * _deltaTime) / (3600 * 24 * 365), 3)}";
                 BodiesLabel.Content = $"Number of bodies: {_session.Bodies.Count}";
 
@@ -82,13 +87,13 @@ namespace WPFUI
                         p.Height = 1;
                         p.Fill = Brushes.Black;
                         p.Stroke = Brushes.Black;
-                        Canvas.SetLeft(p, _session.Bodies[i].Coordinates.X * _scale + _bias + _bodies[i].Width / 2);
-                        Canvas.SetTop(p, _session.Bodies[i].Coordinates.Y * _scale + _bias + _bodies[i].Height / 2);
+                        Canvas.SetLeft(p, _session.Bodies[i].Coordinates.X * _scale + _bias);
+                        Canvas.SetTop(p, _session.Bodies[i].Coordinates.Y * _scale + _bias);
                         MainCanvas.Children.Add(p);
                     }
 
-                    Canvas.SetLeft(_bodies[i], _session.Bodies[i].Coordinates.X * _scale + _bias);
-                    Canvas.SetTop(_bodies[i], _session.Bodies[i].Coordinates.Y * _scale + _bias);
+                    Canvas.SetLeft(_bodies[i], _session.Bodies[i].Coordinates.X * _scale + _bias - _bodies[i].Width / 2);
+                    Canvas.SetTop(_bodies[i], _session.Bodies[i].Coordinates.Y * _scale + _bias - _bodies[i].Height / 2);
                 }
             }
             catch { }

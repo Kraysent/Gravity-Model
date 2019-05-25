@@ -107,7 +107,7 @@ namespace Engine.ViewModel
         public static Session StartMultiCircleSystem(double radius, int numberOfCircles, int numberOfBodies)
         {
             int i, j;
-            double velocity = 0, center = 5e11, mass = 2e30;
+            double velocity = 5e4, center = 5e11, mass = 2e30;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (j = 0; j < numberOfCircles; j++)
@@ -124,6 +124,66 @@ namespace Engine.ViewModel
             }
 
             return new Session(bodies.ToArray());
+        }
+        
+        public static Session StartGalaxySystem(int numberOfBodies)
+        {
+            int i;
+            NormalRandom rnd1 = new NormalRandom();
+            double radiusScale = 1e13, currVelocity, currRadius, massScale = 6e30;
+            List<MaterialPoint> bodies = new List<MaterialPoint>();
+
+            for (i = 0; i < numberOfBodies; i++)
+            {
+                currRadius = Math.Abs(radiusScale * rnd1.NextDouble());
+                currVelocity = Math.Sqrt(MaterialPoint.G * 0.5 * massScale * numberOfBodies / radiusScale);
+
+                bodies.Add(new MaterialPoint
+                {
+                    Coordinates = new Vector(currRadius * Math.Sin(2 * Math.PI / numberOfBodies * i), currRadius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
+                    Mass = rnd.NextDouble() * massScale,
+                    Velocity = new Vector(currVelocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -currVelocity * Math.Sin(2 * Math.PI / numberOfBodies * i))
+                });
+            }
+
+            return new Session(bodies.ToArray());
+        }
+
+        private class NormalRandom : Random
+        {
+            // сохранённое предыдущее значение
+            double prevSample = double.NaN;
+
+            protected override double Sample()
+            {
+                // есть предыдущее значение? возвращаем его
+                if (!double.IsNaN(prevSample))
+                {
+                    double result = prevSample;
+                    prevSample = double.NaN;
+                    return result;
+                }
+
+                // нет? вычисляем следующие два
+                // Marsaglia polar method из википедии
+                double u, v, s;
+                do
+                {
+                    u = 2 * base.Sample() - 1;
+                    v = 2 * base.Sample() - 1; // [-1, 1)
+                    s = u * u + v * v;
+                }
+                while (u <= -1 || v <= -1 || s >= 1 || s == 0);
+                double r = Math.Sqrt(-2 * Math.Log(s) / s);
+
+                prevSample = r * v;
+                return r * u;
+            }
+
+            public override double NextDouble()
+            {
+                return Sample();
+            }
         }
     }
 }
