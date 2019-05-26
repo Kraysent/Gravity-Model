@@ -38,6 +38,10 @@ namespace Engine.ViewModel
         /// List of objects
         /// </summary>
         public List<MaterialPoint> Bodies { get; set; } = new List<MaterialPoint>();
+        /// <summary>
+        /// Determines show tracers or not
+        /// </summary>
+        public bool EnableTracers { get; set; } = true;
 
         public delegate void BodyDelete(int bodyNumber);
         public delegate void BodyAdd(MaterialPoint body);
@@ -80,9 +84,7 @@ namespace Engine.ViewModel
             Vector currForce, acceleration;
             int i, j;
             bool countingNeeded = true;
-
-            /*-------Counting forces-------*/
-
+            
             for (i = 0; i < Bodies.Count; i++)
             {
                 forces[i] = Vector.ZeroVector();
@@ -133,7 +135,7 @@ namespace Engine.ViewModel
                                 double m1 = Bodies[i].Mass, m2 = Bodies[j].Mass;
                                 Vector v1 = Bodies[i].Velocity, v2 = Bodies[j].Velocity;
 
-                                //Momentum conservation law
+                                /*Momentum conservation law*/
                                 Bodies[i].Velocity = (m1 - m2) / (m1 + m2) * (v1 - v2) + v2;
                                 Bodies[j].Velocity = (2 * m1 * v1) / (m1 + m2) + v2;
 
@@ -144,14 +146,12 @@ namespace Engine.ViewModel
 
                     if (countingNeeded)
                     {
-                        currForce = GravitationalForce(Bodies[i], Bodies[j]);
+                        currForce = MaterialPoint.GravityForce(Bodies[i], Bodies[j]);
                         forces[i] += currForce;
                         forces[j] -= currForce;
                     }
                 }
             }
-
-            /*-------Counting forces end-------*/
             
             for (i = 0; i < Bodies.Count; i++)
             {
@@ -160,22 +160,7 @@ namespace Engine.ViewModel
                 Bodies[i].Coordinates += Bodies[i].Velocity * DeltaTime;
             }
         }
-
-        private Vector GravitationalForce(MaterialPoint b1, MaterialPoint b2)
-        {
-            double forceAbs;
-            Vector forceOX;
-
-            if (b1.Coordinates == b2.Coordinates)
-                return Vector.ZeroVector();
-
-            forceAbs = MaterialPoint.G * (b1.Mass * b2.Mass) / (Math.Pow(b1.DistanceTo(b2), 2));
-            forceOX = new Vector(forceAbs, 0);
-            forceOX = forceOX.RotateTo(b2.Coordinates - b1.Coordinates);
-
-            return forceOX;
-        }
-
+        
         private void BodyAddedRaise(MaterialPoint body)
         {
             BodyAdded?.Invoke(body);

@@ -129,7 +129,7 @@ namespace Engine.ViewModel
             int i;
             Universe result = new Universe();
             NormalRandom rnd1 = new NormalRandom();
-            double radiusScale = 1e16, currVelocity, currRadius, massScale = 2e30;
+            double radiusScale = 5e15, currVelocity, currRadius, massScale = 2e30, center = 5e15;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (i = 0; i < numberOfBodies; i++)
@@ -138,14 +138,21 @@ namespace Engine.ViewModel
                 currVelocity = Math.Sqrt(MaterialPoint.G * 0.5 * massScale * numberOfBodies / radiusScale);
 
                 bodies.Add(new PhysicalBody(
-                    coordinates: new Vector(currRadius * Math.Sin(2 * Math.PI / numberOfBodies * i), currRadius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
+                    coordinates: new Vector(center + currRadius * Math.Sin(2 * Math.PI / numberOfBodies * i), center + currRadius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
                     mass: rnd.NextDouble() * massScale,
                     velocity: new Vector(currVelocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -currVelocity * Math.Sin(2 * Math.PI / numberOfBodies * i)),
                     diameter: 5e13
                 ));
             }
 
-            result = new Universe(bodies.ToArray());
+            result = new Universe(bodies.ToArray())
+            {
+                CameraFOVX = 1e16,
+                CameraFOVY = 1e16,
+                CollisionsType = CollisionType.InelasticCollisions,
+                DeltaTime = 3.1536e9, /* 100 * 365 * 24 * 3600 s*/
+                EnableTracers = true
+            };
 
             return result;
         }

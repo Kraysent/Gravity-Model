@@ -12,10 +12,10 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
-        private readonly Universe _universe = UniverseFactory.StartSquareSystem();
+        private readonly Universe _universe = UniverseFactory.StartGalaxySystem(100);
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
-        private const double _bias = 100;
+        private const double _bias = 0;
         private const double _massScale = 1e21;
         private bool _isPaused = false;
         
@@ -85,7 +85,7 @@ namespace WPFUI
 
                 for (i = 0; i < _bodies.Count; i++)
                 {
-                    if (_universe.Epoch % 5 == 0)
+                    if (_universe.EnableTracers == true && _universe.Epoch % 5 == 0)
                     {
                         p = new Ellipse();
                         p.Width = 1;

@@ -1,4 +1,6 @@
-﻿namespace Engine.Models
+﻿using System;
+
+namespace Engine.Models
 {
     public class MaterialPoint
     {
@@ -17,6 +19,21 @@
         }
 
         public double DistanceTo(MaterialPoint b2) => (Coordinates - b2.Coordinates).Length;
+
+        public static Vector GravityForce(MaterialPoint b1, MaterialPoint b2)
+        {
+            double forceAbs;
+            Vector forceOX;
+
+            if (b1.Coordinates == b2.Coordinates)
+                return Vector.ZeroVector();
+
+            forceAbs = G * (b1.Mass * b2.Mass) / (Math.Pow(b1.DistanceTo(b2), 2));
+            forceOX = new Vector(forceAbs, 0);
+            forceOX = forceOX.RotateTo(b2.Coordinates - b1.Coordinates);
+
+            return forceOX;
+        }
 
         public override string ToString()
         {
