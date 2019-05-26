@@ -10,7 +10,7 @@ namespace Engine.ViewModel
 
         public static Universe StartSolarSystem()
         {
-            return new Universe(
+            Universe result = new Universe(
                 new MaterialPoint(coordinates: new Vector(0, 0), mass: 1.98885e30, velocity: new Vector(0, 0)), /*Sun*/
                 new MaterialPoint(coordinates: new Vector(0.460001e11, 0), mass: 3.33022e23, velocity: new Vector(0, -5.3712e4)), /*Mercury*/
                 new MaterialPoint(coordinates: new Vector(1.07476e11, 0), mass: 4.8675e24, velocity: new Vector(0, -3.5139e4)), /*Venus*/
@@ -19,27 +19,45 @@ namespace Engine.ViewModel
                 new MaterialPoint(coordinates: new Vector(7.40574e11, 0), mass:  1.8986e27, velocity: new Vector(0, -1.307e4)), /*Jupiter*/
                 new MaterialPoint(coordinates: new Vector(13.5357e11, 0), mass:  5.6846e26, velocity: new Vector(0, -0.969e4)) /*Saturn*/
                 );
+
+            foreach (MaterialPoint body in result.Bodies)
+            {
+                body.Coordinates += new Vector(14e11, 14e11);
+            }
+
+            result.CameraFOVX = 30e11;
+            result.CameraFOVY = 30e11;
+            result.CollisionsType = CollisionType.NoCollisions;
+            result.DeltaTime = 3600 * 2;
+
+            return result;
         }
 
         public static Universe StartJupiterSystem()
         {
-            return new Universe(
+            Universe result = new Universe(
                 new MaterialPoint(coordinates: new Vector(0, 0), mass: 1.8987e27, velocity: new Vector(0, 0)), /*Jupiter*/
                 new MaterialPoint(coordinates: new Vector(1.0692e9, 0), mass: 1.4819e23, velocity: new Vector(0, -1.088e4)) /*Ganimed*/
                 );
-        }
 
-        public static Universe StartHypSolarSystem()
-        {
-            return new Universe(
-                new MaterialPoint(coordinates: new Vector(0, 0), mass: 2e30, velocity: new Vector(0, 0)), /*Sun*/
-                new MaterialPoint(coordinates: new Vector(1.5e11, 0), mass: 6e24, velocity: new Vector(0, 2.9830633e4)) /*Earth*/
-                );
-        }
+            foreach (MaterialPoint body in result.Bodies)
+            {
+                body.Coordinates += new Vector(1.5e9, 1.5e9);
+            }
 
+            result.CameraFOVX = 3e9;
+            result.CameraFOVY = 3e9;
+            result.DeltaTime = 100;
+            result.Speed = 1;
+            result.CollisionsType = CollisionType.NoCollisions;
+
+            return result;
+        }
+        
         public static Universe StartRandomSystem(int numberOfObjects)
         {
             int i;
+            Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
             double coordsScale = 1e12, velocityScale = 4e4, massScale = 1e30;
 
@@ -53,7 +71,13 @@ namespace Engine.ViewModel
                 ));
             }
 
-            return new Universe(bodies.ToArray());
+            result = new Universe(bodies.ToArray());
+            result.CameraFOVX = 1e12;
+            result.CameraFOVY = 1e12;
+            result.CollisionsType = CollisionType.InelasticCollisions;
+            result.DeltaTime = 2 * 3600;
+
+            return result;
         }
 
         public static Universe StartTestSystem()
@@ -67,6 +91,7 @@ namespace Engine.ViewModel
         public static Universe StartSquareSystem()
         {
             int i, j;
+            Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (j = 0; j < 10; j++)
@@ -74,54 +99,76 @@ namespace Engine.ViewModel
                 for (i = 0; i < 10; i++)
                 {
                     bodies.Add(new PhysicalBody(
-                        coordinates: new Vector(1e11 * i, 1e11 * j),
+                        coordinates: new Vector(0.5e11 + 1e11 * i, 0.5e11 + 1e11 * j),
                         mass: 1e30,
                         velocity: Vector.ZeroVector(),
                         diameter: 3e9
                     ));
                 }
             }
+            
+            result = new Universe(bodies.ToArray());
+            result.CameraFOVX = 1.25e12;
+            result.CameraFOVY = 1.25e12;
+            result.CollisionsType = CollisionType.InelasticCollisions;
+            result.DeltaTime = 2 * 3600;
 
-            return new Universe(bodies.ToArray());
+            return result;
         }
 
         public static Universe StartCircleSystem(int numberOfBodies)
         {
             int i;
-            double radius = 4e11, velocity = 3e4;
+            double radius = 4e11, center = 5e11, velocity = 3e4;
+            Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (i = 0; i < numberOfBodies; i++)
             {
-                bodies.Add(new MaterialPoint(
-                    coordinates: new Vector(5e11 + radius * Math.Sin(2 * Math.PI / numberOfBodies * i), 5e11 + radius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
+                bodies.Add(new PhysicalBody(
+                    coordinates: new Vector(center + radius * Math.Sin(2 * Math.PI / numberOfBodies * i), center + radius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
                     mass: 2e30,
-                    velocity: new Vector(velocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -velocity * Math.Sin(2 * Math.PI / numberOfBodies * i))
+                    velocity: new Vector(velocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -velocity * Math.Sin(2 * Math.PI / numberOfBodies * i)),
+                    diameter: 4e9
                 ));
             }
 
-            return new Universe(bodies.ToArray());
+            result = new Universe(bodies.ToArray());
+            result.CameraFOVX = 1.25e12;
+            result.CameraFOVY = 1.25e12;
+            result.CollisionsType = CollisionType.InelasticCollisions;
+            result.DeltaTime = 1800;
+
+            return result;
         }
 
         public static Universe StartMultiCircleSystem(double radius, int numberOfCircles, int numberOfBodies)
         {
             int i, j;
-            double velocity = 5e4, center = 5e11, mass = 2e30;
+            double velocity = 5e4, center = radius * 1.5, mass = 2e30;
+            Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (j = 0; j < numberOfCircles; j++)
             {
                 for (i = 0; i < numberOfBodies; i++)
                 {
-                    bodies.Add(new MaterialPoint(
+                    bodies.Add(new PhysicalBody(
                         coordinates: new Vector(center + radius * (j + 1) / numberOfCircles  * Math.Sin(2 * Math.PI / numberOfBodies * i), center + radius * (j + 1) / numberOfCircles * Math.Cos(2 * Math.PI / numberOfBodies * i)),
                         mass: mass,
-                        velocity: new Vector(velocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -velocity * Math.Sin(2 * Math.PI / numberOfBodies * i))
+                        velocity: new Vector(velocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -velocity * Math.Sin(2 * Math.PI / numberOfBodies * i)),
+                        diameter: 1e9
                     ));
                 }
             }
 
-            return new Universe(bodies.ToArray());
+            result = new Universe(bodies.ToArray());
+            result.CameraFOVX = radius * 3;
+            result.CameraFOVY = radius * 3;
+            result.CollisionsType = CollisionType.InelasticCollisions;
+            result.DeltaTime = 2 * 3600;
+
+            return result;
         }
         
         public static Universe StartGalaxySystem(int numberOfBodies)

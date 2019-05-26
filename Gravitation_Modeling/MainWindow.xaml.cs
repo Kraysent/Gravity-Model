@@ -12,7 +12,7 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
-        private readonly Universe _universe = UniverseFactory.StartGalaxySystem(100);
+        private readonly Universe _universe = UniverseFactory.StartMultiCircleSystem(5e11, 2, 20);
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private const double _bias = 0;
@@ -52,8 +52,8 @@ namespace WPFUI
             }
             else
             {
-                ellipse.Width = Math.Log10(body.Mass / _massScale) * 2;
-                ellipse.Height = Math.Log10(body.Mass / _massScale) * 2;
+                ellipse.Width = 10;
+                ellipse.Height = 10;
             }
 
             ellipse.Fill = Brushes.Gray;
@@ -73,8 +73,8 @@ namespace WPFUI
         {
             Ellipse p;
             int i;
-            double xScale = Width / _universe.CameraFOVX;
-            double yScale = Height / _universe.CameraFOVY;
+            double xScale = Math.Min(Height, Width) / _universe.CameraFOVX;
+            double yScale = Math.Min(Height, Width) / _universe.CameraFOVY;
 
             try
             {
