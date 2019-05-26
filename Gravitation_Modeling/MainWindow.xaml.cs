@@ -12,23 +12,53 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
+        private Button PauseButton;
+        private Label EpochLabel;
+        private Label BodiesLabel;
+
         private readonly Universe _universe = UniverseFactory.StartMultiCircleSystem(5e11, 2, 20);
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private const double _bias = 0;
-        private const double _massScale = 1e21;
         private bool _isPaused = false;
         
         public MainWindow()
         {
             InitializeComponent();
+            InitializeAnimationUI();
+        }
+        
+        public void InitializeAnimationUI()
+        {
+            Width = 1500;
+            Height = 1000;
+            ResizeMode = ResizeMode.CanResize;
+
+            PauseButton = new Button();
+            PauseButton.Content = "Pause";
+            PauseButton.Width = 75;
+            PauseButton.Click += PauseButton_Click;
+            Canvas.SetLeft(PauseButton, 10);
+            Canvas.SetTop(PauseButton, 10);
+            MainCanvas.Children.Add(PauseButton);
+
+            EpochLabel = new Label();
+            Canvas.SetLeft(EpochLabel, 90);
+            Canvas.SetTop(EpochLabel, 10);
+            MainCanvas.Children.Add(EpochLabel);
+
+            BodiesLabel = new Label();
+            Canvas.SetLeft(BodiesLabel, 90);
+            Canvas.SetTop(BodiesLabel, 36);
+            MainCanvas.Children.Add(BodiesLabel);
+
             InitializeUniverse();
-            
+
             _timer.Tick += Timer_Tick;
             _timer.Interval = new TimeSpan(1);
             _timer.Start();
         }
-        
+
         public void InitializeUniverse()
         {
             _universe.BodyAdded += Universe_BodyAdded;
