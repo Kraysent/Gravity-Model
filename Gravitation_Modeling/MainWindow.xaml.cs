@@ -12,39 +12,36 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
-        private readonly Session _session = SessionFactory.StartRandomSystem(100);
+        private readonly Universe _universe = UniverseFactory.StartSquareSystem();
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
-        private const double _scale = 1e-9;
         private const double _bias = 100;
-        private const double _deltaTime = 2 * 3600;
         private const double _massScale = 1e21;
-        private const int _speed = 4;
-        private int _epoch;
-        private bool _isPaused;
+        private bool _isPaused = false;
         
         public MainWindow()
         {
             InitializeComponent();
-
-            _session.BodyAdded += Session_BodyAdded;
-            _session.BodyDeleted += Session_BodyDeleted;
-            _session.CollisionsType = CollisionType.ElasticCollisions;
-            _epoch = 0;
-            _isPaused = false;
-
-            //First initialisation of objects
-            for (int i = 0; i < _session.Bodies.Count; i++)
-            {
-                Session_BodyAdded(_session.Bodies[i]);
-            }
+            InitializeUniverse();
             
             _timer.Tick += Timer_Tick;
-            _timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
+            _timer.Interval = new TimeSpan(1);
             _timer.Start();
         }
         
-        private void Session_BodyAdded(MaterialPoint body)
+        public void InitializeUniverse()
+        {
+            _universe.BodyAdded += Universe_BodyAdded;
+            _universe.BodyDeleted += Universe_BodyDeleted;
+
+            //First initialisation of objects
+            for (int i = 0; i < _universe.Bodies.Count; i++)
+            {
+                Universe_BodyAdded(_universe.Bodies[i]);
+            }
+        }
+
+        private void Universe_BodyAdded(MaterialPoint body)
         {
             Ellipse ellipse = new Ellipse();
 
@@ -66,7 +63,7 @@ namespace WPFUI
             MainCanvas.Children.Add(ellipse);
         }
 
-        private void Session_BodyDeleted(int bodyNumber)
+        private void Universe_BodyDeleted(int bodyNumber)
         {
             MainCanvas.Children.Remove(_bodies[bodyNumber]);
             _bodies.RemoveAt(bodyNumber);
@@ -76,34 +73,32 @@ namespace WPFUI
         {
             Ellipse p;
             int i;
+            double xScale = Width / _universe.CameraFOVX;
+            double yScale = Height / _universe.CameraFOVY;
 
             try
             {
-                for (i = 0; i < _speed; i++)
-                {
-                    _session.UpdateField(_deltaTime);
-                    _epoch++;
-                }
+                _universe.Update();
 
-                EpochLabel.Content = $"Epoch: year {Math.Round((_epoch * _deltaTime) / (3600 * 24 * 365), 3)}";
-                BodiesLabel.Content = $"Number of bodies: {_session.Bodies.Count}";
+                EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
+                BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
 
                 for (i = 0; i < _bodies.Count; i++)
                 {
-                    if (_epoch % 5 == 0)
+                    if (_universe.Epoch % 5 == 0)
                     {
                         p = new Ellipse();
                         p.Width = 1;
                         p.Height = 1;
                         p.Fill = Brushes.Black;
                         p.Stroke = Brushes.Black;
-                        Canvas.SetLeft(p, _session.Bodies[i].Coordinates.X * _scale + _bias);
-                        Canvas.SetTop(p, _session.Bodies[i].Coordinates.Y * _scale + _bias);
+                        Canvas.SetLeft(p, _universe.Bodies[i].Coordinates.X * xScale + _bias);
+                        Canvas.SetTop(p, _universe.Bodies[i].Coordinates.Y * yScale + _bias);
                         MainCanvas.Children.Add(p);
                     }
 
-                    Canvas.SetLeft(_bodies[i], _session.Bodies[i].Coordinates.X * _scale + _bias - _bodies[i].Width / 2);
-                    Canvas.SetTop(_bodies[i], _session.Bodies[i].Coordinates.Y * _scale + _bias - _bodies[i].Height / 2);
+                    Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * xScale + _bias - _bodies[i].Width / 2);
+                    Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + _bias - _bodies[i].Height / 2);
                 }
             }
             catch { }

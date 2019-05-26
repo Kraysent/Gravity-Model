@@ -4,23 +4,52 @@ using System.Collections.Generic;
 
 namespace Engine.ViewModel
 {
-    public class Session
+    public class Universe
     {
+        /// <summary>
+        /// Number of meters in the camera field of view in X axis
+        /// </summary>
+        public double CameraFOVX { get; set; } = 1e12;
+        /// <summary>
+        /// Number of meters in the camera field of view in Y axis
+        /// </summary>
+        public double CameraFOVY { get; set; } = 1e12;
+        /// <summary>
+        /// Number of seconds per one frame update
+        /// </summary>
+        public double DeltaTime { get; set; } = 2 * 3600;
+        /// <summary>
+        /// Number of frame updates per one real frame update
+        /// </summary>
+        public int Speed { get; set; } = 4;
+        /// <summary>
+        /// Gravitational constant
+        /// </summary>
+        public double G { get; set; } = 3.35e-11;
+        /// <summary>
+        /// Number of updates since start of the session
+        /// </summary>
+        public int Epoch { get; set; } = 0;
+        /// <summary>
+        /// Type of collisions in the system
+        /// </summary>
+        public CollisionType CollisionsType { get; set; } = CollisionType.InelasticCollisions;
+        /// <summary>
+        /// List of objects
+        /// </summary>
+        public List<MaterialPoint> Bodies { get; set; } = new List<MaterialPoint>();
+
         public delegate void BodyDelete(int bodyNumber);
         public delegate void BodyAdd(MaterialPoint body);
         public event BodyDelete BodyDeleted;
         public event BodyAdd BodyAdded;
 
-        public CollisionType CollisionsType { get; set; }
-        public List<MaterialPoint> Bodies { get; set; }
-
-        public Session(CollisionType collisionType = CollisionType.InelasticCollisions)
+        public Universe()
         {
-            CollisionsType = collisionType;
-            Bodies = new List<MaterialPoint>();
+            
         }
         
-        public Session(params MaterialPoint[] bodies) : this()
+        public Universe(params MaterialPoint[] bodies) : this()
         {
             Add(bodies);
         }
@@ -33,8 +62,19 @@ namespace Engine.ViewModel
                 BodyAddedRaise(body);
             }
         }
+        
+        public void Update()
+        {
+            int i; 
 
-        public void UpdateField(double deltaTime)
+            for (i = 0; i < Speed; i++)
+            {
+                UpdateField();
+                Epoch++;
+            }
+        }
+
+        public void UpdateField()
         {
             Vector[] forces = new Vector[Bodies.Count];
             Vector currForce, acceleration;
@@ -116,8 +156,8 @@ namespace Engine.ViewModel
             for (i = 0; i < Bodies.Count; i++)
             {
                 acceleration = forces[i] / Bodies[i].Mass;
-                Bodies[i].Velocity = Bodies[i].Velocity + acceleration * deltaTime;
-                Bodies[i].Coordinates += Bodies[i].Velocity * deltaTime;
+                Bodies[i].Velocity = Bodies[i].Velocity + acceleration * DeltaTime;
+                Bodies[i].Coordinates += Bodies[i].Velocity * DeltaTime;
             }
         }
 

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Engine.ViewModel
 {
-    public class SessionFactory
+    public class UniverseFactory
     {
         private static Random rnd = new Random(DateTime.Now.Millisecond);
 
-        public static Session StartSolarSystem()
+        public static Universe StartSolarSystem()
         {
-            return new Session(
+            return new Universe(
                 new MaterialPoint(coordinates: new Vector(0, 0), mass: 1.98885e30, velocity: new Vector(0, 0)), /*Sun*/
                 new MaterialPoint(coordinates: new Vector(0.460001e11, 0), mass: 3.33022e23, velocity: new Vector(0, -5.3712e4)), /*Mercury*/
                 new MaterialPoint(coordinates: new Vector(1.07476e11, 0), mass: 4.8675e24, velocity: new Vector(0, -3.5139e4)), /*Venus*/
@@ -21,23 +21,23 @@ namespace Engine.ViewModel
                 );
         }
 
-        public static Session StartJupiterSystem()
+        public static Universe StartJupiterSystem()
         {
-            return new Session(
+            return new Universe(
                 new MaterialPoint(coordinates: new Vector(0, 0), mass: 1.8987e27, velocity: new Vector(0, 0)), /*Jupiter*/
                 new MaterialPoint(coordinates: new Vector(1.0692e9, 0), mass: 1.4819e23, velocity: new Vector(0, -1.088e4)) /*Ganimed*/
                 );
         }
 
-        public static Session StartHypSolarSystem()
+        public static Universe StartHypSolarSystem()
         {
-            return new Session(
+            return new Universe(
                 new MaterialPoint(coordinates: new Vector(0, 0), mass: 2e30, velocity: new Vector(0, 0)), /*Sun*/
                 new MaterialPoint(coordinates: new Vector(1.5e11, 0), mass: 6e24, velocity: new Vector(0, 2.9830633e4)) /*Earth*/
                 );
         }
 
-        public static Session StartRandomSystem(int numberOfObjects)
+        public static Universe StartRandomSystem(int numberOfObjects)
         {
             int i;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
@@ -53,18 +53,18 @@ namespace Engine.ViewModel
                 ));
             }
 
-            return new Session(bodies.ToArray());
+            return new Universe(bodies.ToArray());
         }
 
-        public static Session StartTestSystem()
+        public static Universe StartTestSystem()
         {
-            return new Session(
+            return new Universe(
                new PhysicalBody(coordinates: new Vector(0, 0), mass: 2e30, velocity: new Vector(0, 0), diameter: 4e9),
                new PhysicalBody(coordinates: new Vector(1.5e12, 0), mass: 6e29, velocity: new Vector(-100000, 0), diameter: 4e9)
                );
         }
 
-        public static Session StartSquareSystem()
+        public static Universe StartSquareSystem()
         {
             int i, j;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
@@ -73,18 +73,19 @@ namespace Engine.ViewModel
             {
                 for (i = 0; i < 10; i++)
                 {
-                    bodies.Add(new MaterialPoint(
+                    bodies.Add(new PhysicalBody(
                         coordinates: new Vector(1e11 * i, 1e11 * j),
                         mass: 1e30,
-                        velocity: Vector.ZeroVector()
+                        velocity: Vector.ZeroVector(),
+                        diameter: 3e9
                     ));
                 }
             }
 
-            return new Session(bodies.ToArray());
+            return new Universe(bodies.ToArray());
         }
 
-        public static Session StartCircleSystem(int numberOfBodies)
+        public static Universe StartCircleSystem(int numberOfBodies)
         {
             int i;
             double radius = 4e11, velocity = 3e4;
@@ -99,10 +100,10 @@ namespace Engine.ViewModel
                 ));
             }
 
-            return new Session(bodies.ToArray());
+            return new Universe(bodies.ToArray());
         }
 
-        public static Session StartMultiCircleSystem(double radius, int numberOfCircles, int numberOfBodies)
+        public static Universe StartMultiCircleSystem(double radius, int numberOfCircles, int numberOfBodies)
         {
             int i, j;
             double velocity = 5e4, center = 5e11, mass = 2e30;
@@ -120,13 +121,13 @@ namespace Engine.ViewModel
                 }
             }
 
-            return new Session(bodies.ToArray());
+            return new Universe(bodies.ToArray());
         }
         
-        public static Session StartGalaxySystem(int numberOfBodies)
+        public static Universe StartGalaxySystem(int numberOfBodies)
         {
             int i;
-            Session result = new Session();
+            Universe result = new Universe();
             NormalRandom rnd1 = new NormalRandom();
             double radiusScale = 1e16, currVelocity, currRadius, massScale = 2e30;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
@@ -144,7 +145,7 @@ namespace Engine.ViewModel
                 ));
             }
 
-            result = new Session(bodies.ToArray());
+            result = new Universe(bodies.ToArray());
 
             return result;
         }
