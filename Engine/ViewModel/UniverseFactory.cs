@@ -25,6 +25,7 @@ namespace Engine.ViewModel
                 body.Coordinates += new Vector(14e11, 14e11);
             }
 
+            result.Name = "Solar System";
             result.CameraFOVX = 30e11;
             result.CameraFOVY = 30e11;
             result.CollisionsType = CollisionType.NoCollisions;
@@ -45,6 +46,7 @@ namespace Engine.ViewModel
                 body.Coordinates += new Vector(1.5e9, 1.5e9);
             }
 
+            result.Name = "Jupiter System";
             result.CameraFOVX = 3e9;
             result.CameraFOVY = 3e9;
             result.DeltaTime = 100;
@@ -72,6 +74,7 @@ namespace Engine.ViewModel
             }
 
             result = new Universe(bodies.ToArray());
+            result.Name = "Random System";
             result.CameraFOVX = 1e12;
             result.CameraFOVY = 1e12;
             result.CollisionsType = CollisionType.InelasticCollisions;
@@ -108,6 +111,7 @@ namespace Engine.ViewModel
             }
             
             result = new Universe(bodies.ToArray());
+            result.Name = "Square System";
             result.CameraFOVX = 1.25e12;
             result.CameraFOVY = 1.25e12;
             result.CollisionsType = CollisionType.InelasticCollisions;
@@ -134,6 +138,7 @@ namespace Engine.ViewModel
             }
 
             result = new Universe(bodies.ToArray());
+            result.Name = "Circle System";
             result.CameraFOVX = 1.25e12;
             result.CameraFOVY = 1.25e12;
             result.CollisionsType = CollisionType.InelasticCollisions;
@@ -163,6 +168,7 @@ namespace Engine.ViewModel
             }
 
             result = new Universe(bodies.ToArray());
+            result.Name = "Multicircle System";
             result.CameraFOVX = radius * 3;
             result.CameraFOVY = radius * 3;
             result.CollisionsType = CollisionType.InelasticCollisions;
@@ -194,6 +200,7 @@ namespace Engine.ViewModel
 
             result = new Universe(bodies.ToArray())
             {
+                Name = "Galaxy System",
                 CameraFOVX = 1e16,
                 CameraFOVY = 1e16,
                 CollisionsType = CollisionType.InelasticCollisions,

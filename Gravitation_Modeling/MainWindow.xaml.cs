@@ -16,7 +16,8 @@ namespace WPFUI
         private Label EpochLabel;
         private Label BodiesLabel;
 
-        private readonly Universe _universe = UniverseFactory.StartMultiCircleSystem(5e11, 2, 20);
+        private List<Universe> _universes = new List<Universe>();
+        private Universe _universe = UniverseFactory.StartMultiCircleSystem(5e11, 2, 20);
         private readonly List<Ellipse> _bodies = new List<Ellipse>();
         private readonly DispatcherTimer _timer = new DispatcherTimer();
         private const double _bias = 0;
@@ -25,27 +26,19 @@ namespace WPFUI
         public MainWindow()
         {
             InitializeComponent();
-            MapsListView.Items.Add(new UniverseDescription { Name = "Universe 1" });
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            MapsListView.Items.Add(new object());
-            //InitializeAnimationUI();
+
+            _universes.Add(UniverseFactory.StartSolarSystem());
+            _universes.Add(UniverseFactory.StartJupiterSystem());
+            _universes.Add(UniverseFactory.StartSquareSystem());
+            _universes.Add(UniverseFactory.StartRandomSystem(100));
+            _universes.Add(UniverseFactory.StartCircleSystem(50));
+            _universes.Add(UniverseFactory.StartMultiCircleSystem(5e11, 2, 20));
+            _universes.Add(UniverseFactory.StartGalaxySystem(100));
+
+            foreach (Universe universe in _universes)
+            {
+                MapsListView.Items.Add(new UniverseDescription { Name = universe.Name });
+            }
         }
         
         public void InitializeAnimationUI()
@@ -172,7 +165,17 @@ namespace WPFUI
 
         private void MapButton_Click(object sender, RoutedEventArgs e)
         {
+            string mapName = ((sender as Button).DataContext as UniverseDescription).Name;
 
+            foreach (Universe universe in _universes)
+            {
+                if (universe.Name == mapName)
+                {
+                    _universe = universe;
+                    MainCanvas.Children.Remove(MainGrid);
+                    InitializeAnimationUI();
+                }
+            }
         }
 
         private class UniverseDescription

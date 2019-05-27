@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Gravity Simulation" Height="500" Width="500" ResizeMode="NoResize">
     <Canvas Name="MainCanvas">
-        <Grid Height="465" Width="475">
+        <Grid Name="MainGrid" Height="465" Width="475">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="9*"></RowDefinition>
@@ -15,12 +15,12 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="6*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Content="Gravity simulator" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="2" Grid.Column="0" Margin="10" Content="Close"/>
-            <Button Grid.Row="2" Grid.Column="1" Margin="10" Content="Start"/>
-            <ListView Name="MapsListView" HorizontalAlignment="Left" Width="455" Height="370" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2">
+            <Label Grid.Row="0" Grid.Column="0" Content="Gravity simulator" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Grid.ColumnSpan="3"/>
+            <Button Grid.Row="2" Grid.Column="0" Margin="10" Content="Open map"/>
+            <Button Grid.Row="2" Grid.Column="1" Margin="10" Content="Create map"/>
+            <ListView Name="MapsListView" HorizontalAlignment="Left" Width="455" Height="370" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>
@@ -36,10 +36,17 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Start" Width="200">
+                        <GridViewColumn Header="Start" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="MapButton" Width="150" Height="30" HorizontalAlignment="Center" Click="MapButton_Click"/>
+                                    <Button Name="MapButton" Content="Start" Width="75" Height="30" HorizontalAlignment="Center" Click="MapButton_Click"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Adjust" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="AdlustButton" Content="Adjust" Width="75" Height="30" HorizontalAlignment="Center"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
