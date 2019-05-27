@@ -46,7 +46,7 @@
                         <GridViewColumn Header="Adjust" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="AdlustButton" Content="Adjust" Width="75" Height="30" HorizontalAlignment="Center"/>
+                                    <Button Name="AdlustButton" Content="Adjust" Width="75" Height="30" HorizontalAlignment="Center" Click="AdlustButton_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

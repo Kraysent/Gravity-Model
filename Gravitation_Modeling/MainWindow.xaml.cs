@@ -1,5 +1,6 @@
 ﻿using Engine.Models;
 using Engine.ViewModel;
+using Gravitation_Modeling;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -174,6 +175,21 @@ namespace WPFUI
                     _universe = universe;
                     MainCanvas.Children.Remove(MainGrid);
                     InitializeAnimationUI();
+                }
+            }
+        }
+
+        private void AdlustButton_Click(object sender, RoutedEventArgs e)
+        {
+            string mapName = ((sender as Button).DataContext as UniverseDescription).Name;
+
+            foreach (Universe universe in _universes)
+            {
+                if (universe.Name == mapName)
+                {
+                    AdjustmentWindow window = new AdjustmentWindow(universe);
+
+                    window.ShowDialog();
                 }
             }
         }

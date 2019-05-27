@@ -1,0 +1,30 @@
+﻿<Window x:Class="Gravitation_Modeling.AdjustmentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFUI"
+        mc:Ignorable="d"
+        Title="Adjustment" Height="230" Width="300" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Content="Adjustment" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Grid.ColumnSpan="2"/>
+        <Label Content="Show tracers" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
+        <CheckBox Name="TracersCheckBox" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="TracersCheckBox_Click"/>
+        <Label Content="Speed" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
+        <TextBox Name="SpeedTextBox" Grid.Column="1" Grid.Row="2" Margin="5" TextChanged="SpeedTextBox_TextChanged"/>
+        <Label Content="Type of coliisions" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
+        <ComboBox Name="CollisionsTypeComboBox" Grid.Column="1" Grid.Row="3" Margin="5" SelectionChanged="CollisionsTypeComboBox_SelectionChanged"/>
+        <Button Name="CloseButton" Content="Close" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Margin="5" Click="CloseButton_Click"/>
+    </Grid>
+</Window>
