@@ -5,7 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="500" ResizeMode="NoResize">
+        Title="Gravity Simulation" Height="500" Width="500" ResizeMode="NoResize">
     <Canvas Name="MainCanvas">
+        <Grid Height="465" Width="475">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="9*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="6*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Gravity simulator" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Grid.ColumnSpan="2"/>
+            <Button Grid.Row="2" Grid.Column="0" Margin="10" Content="Close"/>
+            <Button Grid.Row="2" Grid.Column="1" Margin="10" Content="Start"/>
+            <ListView Name="MapsListView" HorizontalAlignment="Left" Width="455" Height="370" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2">
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="Height"  Value="0"/>
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="Names" DisplayMemberBinding="{Binding Name}" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label>Map</Label>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Start" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="MapButton" Width="150" Height="30" HorizontalAlignment="Center" Click="MapButton_Click"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Canvas>
 </Window>

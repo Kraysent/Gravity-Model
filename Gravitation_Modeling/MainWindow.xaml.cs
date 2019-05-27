@@ -25,7 +25,27 @@ namespace WPFUI
         public MainWindow()
         {
             InitializeComponent();
-            InitializeAnimationUI();
+            MapsListView.Items.Add(new UniverseDescription { Name = "Universe 1" });
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            MapsListView.Items.Add(new object());
+            //InitializeAnimationUI();
         }
         
         public void InitializeAnimationUI()
@@ -148,6 +168,16 @@ namespace WPFUI
                 _timer.Start();
                 _isPaused = false;
             }
+        }
+
+        private void MapButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private class UniverseDescription
+        {
+            public string Name { get; set; }
         }
     }
 }

@@ -7,6 +7,10 @@ namespace Engine.ViewModel
     public class Universe
     {
         /// <summary>
+        /// The name of current Universe
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
         /// Number of meters in the camera field of view in X axis
         /// </summary>
         public double CameraFOVX { get; set; } = 1e12;
