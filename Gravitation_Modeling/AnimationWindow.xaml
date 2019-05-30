@@ -1,0 +1,14 @@
+﻿<Window x:Class="Gravitation_Modeling.AnimationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gravitation_Modeling"
+        mc:Ignorable="d"
+        Title="AnimationWindow" Height="1000" Width="1500">
+    <Canvas Name="MainCanvas">
+        <Button Name="PauseButton" Canvas.Left="10" Canvas.Top="10" Width="75" Height="25" Content="Pause" Click="PauseButton_Click"/>
+        <Label Name="EpochLabel" Content="Epoch: 0" Canvas.Left="90" Canvas.Top="10"/>
+        <Label x:Name="BodiesLabel" Content="Number of bodies: 0" Canvas.Left="90" Canvas.Top="36"/>
+    </Canvas>
+</Window>

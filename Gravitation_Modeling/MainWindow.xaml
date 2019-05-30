@@ -18,8 +18,8 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Gravity simulator" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Grid.ColumnSpan="3"/>
-            <Button Grid.Row="2" Grid.Column="0" Margin="10" Content="Open map"/>
-            <Button Grid.Row="2" Grid.Column="1" Margin="10" Content="Create map"/>
+            <Button Name="OpenMapButton" Grid.Row="2" Grid.Column="0" Margin="10" Content="Open map"/>
+            <Button Name="CreateMapButton" Grid.Row="2" Grid.Column="1" Margin="10" Content="Create map"/>
             <ListView Name="MapsListView" HorizontalAlignment="Left" Width="455" Height="370" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
@@ -46,7 +46,7 @@
                         <GridViewColumn Header="Adjust" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="AdlustButton" Content="Adjust" Width="75" Height="30" HorizontalAlignment="Center" Click="AdlustButton_Click"/>
+                                    <Button Name="AdjustButton" Content="Adjust" Width="75" Height="30" HorizontalAlignment="Center" Click="AdjustButton_Click"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
