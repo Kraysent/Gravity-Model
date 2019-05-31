@@ -8,7 +8,8 @@
         Title="AnimationWindow" Height="1000" Width="1500">
     <Canvas Name="MainCanvas">
         <Button Name="PauseButton" Canvas.Left="10" Canvas.Top="10" Width="75" Height="25" Content="Pause" Click="PauseButton_Click"/>
+        <Button Name="SaveButton" Content="Save" Canvas.Left="10" Canvas.Top="40" Width="75" Click="SaveButton_Click"/>
         <Label Name="EpochLabel" Content="Epoch: 0" Canvas.Left="90" Canvas.Top="10"/>
-        <Label x:Name="BodiesLabel" Content="Number of bodies: 0" Canvas.Left="90" Canvas.Top="36"/>
+        <Label Name="BodiesLabel" Content="Number of bodies: 0" Canvas.Left="90" Canvas.Top="36"/>
     </Canvas>
 </Window>

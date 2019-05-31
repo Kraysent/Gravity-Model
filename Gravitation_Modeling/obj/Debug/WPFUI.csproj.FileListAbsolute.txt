@@ -20,3 +20,5 @@ D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\AdjustmentWindo
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\AdjustmentWindow.baml
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\AnimationWindow.g.cs
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\AnimationWindow.baml
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\bin\Debug\Newtonsoft.Json.dll
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\bin\Debug\Newtonsoft.Json.xml

@@ -1,4 +1,5 @@
-﻿using static System.Math;
+﻿using Newtonsoft.Json;
+using static System.Math;
 
 namespace Engine.Models
 {
@@ -13,8 +14,11 @@ namespace Engine.Models
         public double X { get; set; }
         public double Y { get; set; }
 
+        [JsonIgnore]
         public double Length => Sqrt(Pow(X, 2) + Pow(Y, 2));
+        [JsonIgnore]
         public double Angle => AngleTo(UnitXVector());
+        [JsonIgnore]
         public Vector Unit => new Vector(X / Length, Y / Length);
 
         public double AngleTo(Vector v) => Acos((X * v.X + Y * v.Y) / (Length * v.Length));

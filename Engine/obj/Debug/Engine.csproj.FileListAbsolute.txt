@@ -4,3 +4,6 @@ D:\Coding\C#\Gravitation_Modeling\Engine\obj\Debug\Engine.csprojAssemblyReferenc
 D:\Coding\C#\Gravitation_Modeling\Engine\obj\Debug\Engine.csproj.CoreCompileInputs.cache
 D:\Coding\C#\Gravitation_Modeling\Engine\obj\Debug\Engine.dll
 D:\Coding\C#\Gravitation_Modeling\Engine\obj\Debug\Engine.pdb
+D:\Coding\C#\Gravitation_Modeling\Engine\bin\Debug\Newtonsoft.Json.dll
+D:\Coding\C#\Gravitation_Modeling\Engine\bin\Debug\Newtonsoft.Json.xml
+D:\Coding\C#\Gravitation_Modeling\Engine\obj\Debug\Engine.csproj.CopyComplete

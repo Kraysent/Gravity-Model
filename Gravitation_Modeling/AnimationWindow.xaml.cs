@@ -1,5 +1,6 @@
 ﻿using Engine.Models;
 using Engine.ViewModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -7,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Windows.Forms;
+using System.IO;
 
 namespace Gravitation_Modeling
 {
@@ -43,22 +46,6 @@ namespace Gravitation_Modeling
             for (int i = 0; i < _universe.Bodies.Count; i++)
             {
                 Universe_BodyAdded(_universe.Bodies[i]);
-            }
-        }
-        
-        private void PauseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_isPaused)
-            {
-                PauseButton.Content = "Continue";
-                _timer.Stop();
-                _isPaused = true;
-            }
-            else if (_isPaused)
-            {
-                PauseButton.Content = "Pause";
-                _timer.Start();
-                _isPaused = false;
             }
         }
         
@@ -123,6 +110,36 @@ namespace Gravitation_Modeling
                 }
             }
             catch { }
+        }
+        
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_isPaused)
+            {
+                PauseButton.Content = "Continue";
+                _timer.Stop();
+                _isPaused = true;
+            }
+            else if (_isPaused)
+            {
+                PauseButton.Content = "Pause";
+                _timer.Start();
+                _isPaused = false;
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            string json;
+
+            PauseButton_Click(this, new RoutedEventArgs());
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
+            {
+                json = JsonConvert.SerializeObject(_universe, Formatting.Indented);
+                File.WriteAllText(dialog.FileName, json);
+            }
         }
     }
 }
