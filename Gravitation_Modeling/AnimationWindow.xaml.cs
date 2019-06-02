@@ -137,7 +137,20 @@ namespace Gravitation_Modeling
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
             {
-                json = JsonConvert.SerializeObject(_universe, Formatting.Indented);
+                //We need to use these settings because in _universe.Bodies
+                //we have List that consists not only of MaterialPoints
+                //but also of PhysicalBody inherited from MaterialPoints.
+                //As a result, when we serialize - we serialize PhysicalBodies
+                //but when we deserialize - we deserialize MaterialPoints because
+                //Bodies is a List<MaterialPoint>, so we lose properties of Physical body.
+                //
+                //The same thing need to be done when we open universe
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                };
+
+                json = JsonConvert.SerializeObject(_universe, settings);
                 File.WriteAllText(dialog.FileName, json);
             }
         }

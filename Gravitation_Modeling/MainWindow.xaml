@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Gravity simulator" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Grid.ColumnSpan="3"/>
-            <Button Name="OpenMapButton" Grid.Row="2" Grid.Column="0" Margin="10" Content="Open map"/>
+            <Button Name="OpenMapButton" Grid.Row="2" Grid.Column="0" Margin="10" Content="Open map" Click="OpenMapButton_Click"/>
             <Button Name="CreateMapButton" Grid.Row="2" Grid.Column="1" Margin="10" Content="Create map"/>
             <ListView Name="MapsListView" HorizontalAlignment="Left" Width="455" Height="370" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView.View>
@@ -33,6 +33,13 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label>Map</Label>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Hashes" DisplayMemberBinding="{Binding Hash}" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label>Hash</Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

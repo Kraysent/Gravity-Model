@@ -39,13 +39,13 @@ namespace Engine.ViewModel
         /// </summary>
         public CollisionType CollisionsType { get; set; } = CollisionType.InelasticCollisions;
         /// <summary>
-        /// List of objects
-        /// </summary>
-        public List<MaterialPoint> Bodies { get; set; } = new List<MaterialPoint>();
-        /// <summary>
         /// Determines show tracers or not
         /// </summary>
         public bool EnableTracers { get; set; } = true;
+        /// <summary>
+        /// List of objects
+        /// </summary>
+        public List<MaterialPoint> Bodies { get; set; } = new List<MaterialPoint>();
 
         public delegate void BodyDelete(int bodyNumber);
         public delegate void BodyAdd(MaterialPoint body);
@@ -173,6 +173,53 @@ namespace Engine.ViewModel
         private void BodyDeletedRaise(int bodyNumber)
         {
             BodyDeleted?.Invoke(bodyNumber);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var universe = obj as Universe;
+            return universe != null &&
+                   Name == universe.Name &&
+                   CameraFOVX == universe.CameraFOVX &&
+                   CameraFOVY == universe.CameraFOVY &&
+                   DeltaTime == universe.DeltaTime &&
+                   Speed == universe.Speed &&
+                   G == universe.G &&
+                   Epoch == universe.Epoch &&
+                   CollisionsType == universe.CollisionsType &&
+                   EqualityComparer<List<MaterialPoint>>.Default.Equals(Bodies, universe.Bodies) &&
+                   EnableTracers == universe.EnableTracers;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1389298070;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + CameraFOVX.GetHashCode();
+            hashCode = hashCode * -1521134295 + CameraFOVY.GetHashCode();
+            hashCode = hashCode * -1521134295 + DeltaTime.GetHashCode();
+            hashCode = hashCode * -1521134295 + Speed.GetHashCode();
+            hashCode = hashCode * -1521134295 + G.GetHashCode();
+            hashCode = hashCode * -1521134295 + Epoch.GetHashCode();
+            hashCode = hashCode * -1521134295 + CollisionsType.GetHashCode();
+
+            foreach (MaterialPoint body in Bodies)
+            {
+                hashCode = hashCode * -1521134295 + body.GetHashCode();
+            }
+            
+            hashCode = hashCode * -1521134295 + EnableTracers.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(Universe universe1, Universe universe2)
+        {
+            return EqualityComparer<Universe>.Default.Equals(universe1, universe2);
+        }
+
+        public static bool operator !=(Universe universe1, Universe universe2)
+        {
+            return !(universe1 == universe2);
         }
     }
 }
