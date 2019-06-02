@@ -30,7 +30,7 @@ namespace Engine.ViewModel
         /// <summary>
         /// Gravitational constant
         /// </summary>
-        public double G { get; set; } = 3.35e-11;
+        public double G { get; set; } = 6.67e-11;
         /// <summary>
         /// Number of updates since start of the session
         /// </summary>
@@ -151,9 +151,8 @@ namespace Engine.ViewModel
 
                     if (countingNeeded)
                     {
-                        currForce = MaterialPoint.GravityForce(Bodies[i], Bodies[j]);
+                        currForce = MaterialPoint.GravityForce(Bodies[i], Bodies[j], G);
                         forces[i] += currForce;
-                        forces[j] -= currForce;
                     }
                 }
             }

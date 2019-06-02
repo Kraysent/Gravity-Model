@@ -6,10 +6,6 @@ namespace Engine.Models
 {
     public class MaterialPoint : ICloneable
     {
-        [JsonIgnore]
-        /* I don't know why this does not work with G = 6.67e-11. This value is emperic. */
-        public const double G = 3.35e-11; /* m^3 * kg^-1 * s^-2 */ 
-
         public double Mass { get; set; } /* kg */
         public Vector Coordinates { get; set; } /* m, m */
         public Vector Velocity { get; set; } /* m / s, m / s */
@@ -23,7 +19,7 @@ namespace Engine.Models
 
         public double DistanceTo(MaterialPoint b2) => (Coordinates - b2.Coordinates).Length;
 
-        public static Vector GravityForce(MaterialPoint b1, MaterialPoint b2)
+        public static Vector GravityForce(MaterialPoint b1, MaterialPoint b2, double G)
         {
             double forceAbs;
             Vector forceOX;

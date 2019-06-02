@@ -188,7 +188,7 @@ namespace Engine.ViewModel
             for (i = 0; i < numberOfBodies; i++)
             {
                 currRadius = Math.Abs(radiusScale * (rnd1.NextDouble() / 5 + 0.6));
-                currVelocity = Math.Sqrt(MaterialPoint.G * 0.5 * massScale * numberOfBodies / radiusScale);
+                currVelocity = Math.Sqrt(result.G * 0.5 * massScale * numberOfBodies / radiusScale);
 
                 bodies.Add(new PhysicalBody(
                     coordinates: new Vector(center + currRadius * Math.Sin(2 * Math.PI / numberOfBodies * i), center + currRadius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
