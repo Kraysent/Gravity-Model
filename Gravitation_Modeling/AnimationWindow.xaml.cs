@@ -24,7 +24,7 @@ namespace Gravitation_Modeling
         public AnimationWindow(Universe universe)
         {
             InitializeComponent();
-            _universe = universe;
+            _universe = (Universe)universe.Clone();
 
             Width = 1500;
             Height = 1000;

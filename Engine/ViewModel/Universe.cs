@@ -1,10 +1,11 @@
 ﻿using Engine.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Engine.ViewModel
 {
-    public class Universe
+    public class Universe : ICloneable
     {
         /// <summary>
         /// The name of current Universe
@@ -210,6 +211,23 @@ namespace Engine.ViewModel
             
             hashCode = hashCode * -1521134295 + EnableTracers.GetHashCode();
             return hashCode;
+        }
+
+        public object Clone()
+        {
+            Universe universe = new Universe();
+            universe.Name = Name;
+            universe.CameraFOVX = CameraFOVX;
+            universe.CameraFOVY = CameraFOVY;
+            universe.DeltaTime = DeltaTime;
+            universe.Speed = Speed;
+            universe.G = G;
+            universe.Epoch = Epoch;
+            universe.CollisionsType = CollisionsType;
+            universe.EnableTracers = EnableTracers;
+            universe.Bodies = Bodies.Select(item => (MaterialPoint)item.Clone()).ToList();
+
+            return universe;
         }
 
         public static bool operator ==(Universe universe1, Universe universe2)

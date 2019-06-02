@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Engine.Models
 {
-    public class MaterialPoint
+    public class MaterialPoint : ICloneable
     {
         [JsonIgnore]
         /* I don't know why this does not work with G = 6.67e-11. This value is emperic. */
@@ -59,6 +59,11 @@ namespace Engine.Models
             hashCode = hashCode * -1521134295 + Coordinates.GetHashCode();
             hashCode = hashCode * -1521134295 + Velocity.GetHashCode();
             return hashCode;
+        }
+
+        public virtual object Clone()
+        {
+            return new MaterialPoint(Coordinates, Mass, Velocity);
         }
 
         public static bool operator ==(MaterialPoint point1, MaterialPoint point2)

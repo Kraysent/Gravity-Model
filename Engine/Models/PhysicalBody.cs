@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Engine.Models
 {
-    public class PhysicalBody : MaterialPoint
+    public class PhysicalBody : MaterialPoint, ICloneable
     {
         public double Diameter { get; set; } /* m */
 
@@ -30,6 +31,11 @@ namespace Engine.Models
             hashCode = hashCode * -1521134295 + base.GetHashCode();
             hashCode = hashCode * -1521134295 + Diameter.GetHashCode();
             return hashCode;
+        }
+
+        public override object Clone()
+        {
+            return new PhysicalBody(Coordinates, Mass, Velocity, Diameter);
         }
 
         public static bool operator ==(PhysicalBody body1, PhysicalBody body2)
