@@ -94,8 +94,8 @@ namespace Gravitation_Modeling
         {
             Ellipse p;
             int i;
-            double xScale = Math.Min(Height, Width) / _universe.CameraFOVX;
-            double yScale = Math.Min(Height, Width) / _universe.CameraFOVY;
+            double xScale = Math.Min(Height, Width) / _universe.CameraFOV;
+            double yScale = Math.Min(Height, Width) / _universe.CameraFOV;
             double xBias = Width / 2;
             double yBias = Height / 2;
 

@@ -21,8 +21,7 @@ namespace Engine.ViewModel
                 );
             
             result.Name = "Solar System";
-            result.CameraFOVX = 30e11;
-            result.CameraFOVY = 30e11;
+            result.CameraFOV = 30e11;
             result.CollisionsType = CollisionType.NoCollisions;
             result.DeltaTime = 3600 * 2;
 
@@ -37,8 +36,7 @@ namespace Engine.ViewModel
                 );
             
             result.Name = "Jupiter System";
-            result.CameraFOVX = 3e9;
-            result.CameraFOVY = 3e9;
+            result.CameraFOV = 3e9;
             result.DeltaTime = 100;
             result.Speed = 1;
             result.CollisionsType = CollisionType.NoCollisions;
@@ -65,10 +63,10 @@ namespace Engine.ViewModel
 
             result = new Universe(bodies.ToArray());
             result.Name = "Random System";
-            result.CameraFOVX = 1e12;
-            result.CameraFOVY = 1e12;
+            result.CameraFOV = 1e12;
             result.CollisionsType = CollisionType.InelasticCollisions;
             result.DeltaTime = 2 * 3600;
+            result.EnableTracers = false;
 
             return result;
         }
@@ -103,8 +101,7 @@ namespace Engine.ViewModel
             
             result = new Universe(bodies.ToArray());
             result.Name = "Square System";
-            result.CameraFOVX = 1.25e12;
-            result.CameraFOVY = 1.25e12;
+            result.CameraFOV = 1.25e12;
             result.CollisionsType = CollisionType.InelasticCollisions;
             result.DeltaTime = 2 * 3600;
 
@@ -130,8 +127,7 @@ namespace Engine.ViewModel
 
             result = new Universe(bodies.ToArray());
             result.Name = "Circle System";
-            result.CameraFOVX = 1.25e12;
-            result.CameraFOVY = 1.25e12;
+            result.CameraFOV = 1.25e12;
             result.CollisionsType = CollisionType.InelasticCollisions;
             result.DeltaTime = 1800;
 
@@ -160,8 +156,7 @@ namespace Engine.ViewModel
 
             result = new Universe(bodies.ToArray());
             result.Name = "Multicircle System";
-            result.CameraFOVX = radius * 3;
-            result.CameraFOVY = radius * 3;
+            result.CameraFOV = radius * 3;
             result.CollisionsType = CollisionType.InelasticCollisions;
             result.DeltaTime = 2 * 3600;
 
@@ -192,8 +187,7 @@ namespace Engine.ViewModel
             result = new Universe(bodies.ToArray())
             {
                 Name = "Galaxy System",
-                CameraFOVX = 1e16,
-                CameraFOVY = 1e16,
+                CameraFOV = 1e16,
                 CollisionsType = CollisionType.InelasticCollisions,
                 DeltaTime = 3.1536e9, /* 100 * 365 * 24 * 3600 s*/
                 EnableTracers = true

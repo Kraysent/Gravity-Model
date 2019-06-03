@@ -14,11 +14,7 @@ namespace Engine.ViewModel
         /// <summary>
         /// Number of meters in the camera field of view in X axis
         /// </summary>
-        public double CameraFOVX { get; set; } = 1e12;
-        /// <summary>
-        /// Number of meters in the camera field of view in Y axis
-        /// </summary>
-        public double CameraFOVY { get; set; } = 1e12;
+        public double CameraFOV { get; set; } = 1e12;
         /// <summary>
         /// Number of seconds per one frame update
         /// </summary>
@@ -180,8 +176,8 @@ namespace Engine.ViewModel
             var universe = obj as Universe;
             return universe != null &&
                    Name == universe.Name &&
-                   CameraFOVX == universe.CameraFOVX &&
-                   CameraFOVY == universe.CameraFOVY &&
+                   CameraFOV == universe.CameraFOV &&
+                   CameraFOV == universe.CameraFOV &&
                    DeltaTime == universe.DeltaTime &&
                    Speed == universe.Speed &&
                    G == universe.G &&
@@ -195,8 +191,8 @@ namespace Engine.ViewModel
         {
             var hashCode = -1389298070;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + CameraFOVX.GetHashCode();
-            hashCode = hashCode * -1521134295 + CameraFOVY.GetHashCode();
+            hashCode = hashCode * -1521134295 + CameraFOV.GetHashCode();
+            hashCode = hashCode * -1521134295 + CameraFOV.GetHashCode();
             hashCode = hashCode * -1521134295 + DeltaTime.GetHashCode();
             hashCode = hashCode * -1521134295 + Speed.GetHashCode();
             hashCode = hashCode * -1521134295 + G.GetHashCode();
@@ -216,8 +212,8 @@ namespace Engine.ViewModel
         {
             Universe universe = new Universe();
             universe.Name = Name;
-            universe.CameraFOVX = CameraFOVX;
-            universe.CameraFOVY = CameraFOVY;
+            universe.CameraFOV = CameraFOV;
+            universe.CameraFOV = CameraFOV;
             universe.DeltaTime = DeltaTime;
             universe.Speed = Speed;
             universe.G = G;
