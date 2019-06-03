@@ -85,7 +85,7 @@ namespace Gravitation_Modeling {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Gravitation_Modeling;component/adjustmentwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/WPFUI;component/adjustmentwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\AdjustmentWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

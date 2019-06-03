@@ -19,17 +19,13 @@ namespace Gravitation_Modeling
         private List<Ellipse> _bodies = new List<Ellipse>();
         private DispatcherTimer _timer = new DispatcherTimer();
         private bool _isPaused = false;
-        private const double _bias = 0;
 
         public AnimationWindow(Universe universe)
         {
             InitializeComponent();
-            _universe = (Universe)universe.Clone();
+            Title = universe.Name;
 
-            Width = 1500;
-            Height = 1000;
-            ResizeMode = ResizeMode.CanResize;
-            
+            _universe = universe.Clone() as Universe;
             InitializeUniverse();
 
             _timer.Tick += Timer_Tick;
@@ -83,6 +79,8 @@ namespace Gravitation_Modeling
             int i;
             double xScale = Math.Min(Height, Width) / _universe.CameraFOVX;
             double yScale = Math.Min(Height, Width) / _universe.CameraFOVY;
+            double xBias = Width / 2;
+            double yBias = Height / 2;
 
             try
             {
@@ -100,13 +98,13 @@ namespace Gravitation_Modeling
                         p.Height = 1;
                         p.Fill = Brushes.Black;
                         p.Stroke = Brushes.Black;
-                        Canvas.SetLeft(p, _universe.Bodies[i].Coordinates.X * xScale + _bias);
-                        Canvas.SetTop(p, _universe.Bodies[i].Coordinates.Y * yScale + _bias);
+                        Canvas.SetLeft(p, _universe.Bodies[i].Coordinates.X * xScale + xBias);
+                        Canvas.SetTop(p, _universe.Bodies[i].Coordinates.Y * yScale + yBias);
                         MainCanvas.Children.Add(p);
                     }
 
-                    Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * xScale + _bias - _bodies[i].Width / 2);
-                    Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + _bias - _bodies[i].Height / 2);
+                    Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * xScale + xBias - _bodies[i].Width / 2);
+                    Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias - _bodies[i].Height / 2);
                 }
             }
             catch { }

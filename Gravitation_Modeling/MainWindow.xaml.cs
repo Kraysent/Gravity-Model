@@ -27,7 +27,7 @@ namespace WPFUI
             AddUniverse(UniverseFactory.StartJupiterSystem());
             AddUniverse(UniverseFactory.StartSquareSystem());
             AddUniverse(UniverseFactory.StartRandomSystem(100));
-            AddUniverse(UniverseFactory.StartCircleSystem(50));
+            AddUniverse(UniverseFactory.StartCircleSystem(20));
             AddUniverse(UniverseFactory.StartMultiCircleSystem(5e11, 2, 20));
             AddUniverse(UniverseFactory.StartGalaxySystem(100));
         }

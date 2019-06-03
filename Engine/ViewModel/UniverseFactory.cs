@@ -19,12 +19,7 @@ namespace Engine.ViewModel
                 new MaterialPoint(coordinates: new Vector(7.40574e11, 0), mass:  1.8986e27, velocity: new Vector(0, -1.307e4)), /*Jupiter*/
                 new MaterialPoint(coordinates: new Vector(13.5357e11, 0), mass:  5.6846e26, velocity: new Vector(0, -0.969e4)) /*Saturn*/
                 );
-
-            foreach (MaterialPoint body in result.Bodies)
-            {
-                body.Coordinates += new Vector(14e11, 14e11);
-            }
-
+            
             result.Name = "Solar System";
             result.CameraFOVX = 30e11;
             result.CameraFOVY = 30e11;
@@ -40,12 +35,7 @@ namespace Engine.ViewModel
                 new MaterialPoint(coordinates: new Vector(0, 0), mass: 1.8987e27, velocity: new Vector(0, 0)), /*Jupiter*/
                 new MaterialPoint(coordinates: new Vector(1.0692e9, 0), mass: 1.4819e23, velocity: new Vector(0, -1.088e4)) /*Ganimed*/
                 );
-
-            foreach (MaterialPoint body in result.Bodies)
-            {
-                body.Coordinates += new Vector(1.5e9, 1.5e9);
-            }
-
+            
             result.Name = "Jupiter System";
             result.CameraFOVX = 3e9;
             result.CameraFOVY = 3e9;
@@ -59,16 +49,16 @@ namespace Engine.ViewModel
         public static Universe StartRandomSystem(int numberOfObjects)
         {
             int i;
+            double coordsScale = 1e12, velocityScale = 4e4, massScale = 1e30;
             Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
-            double coordsScale = 1e12, velocityScale = 4e4, massScale = 1e30;
 
             for (i = 0; i < numberOfObjects; i++)
             {
                 bodies.Add(new PhysicalBody(
-                    coordinates: new Vector(rnd.NextDouble() * coordsScale, rnd.NextDouble() * coordsScale),
+                    coordinates: new Vector((rnd.NextDouble() - 0.5) * coordsScale, (rnd.NextDouble() - 0.5) * coordsScale),
                     mass: rnd.NextDouble() * massScale,
-                    velocity: new Vector(rnd.NextDouble() * Math.Pow(-1, rnd.Next(1, 4)) * velocityScale, rnd.NextDouble() * Math.Pow(-1, rnd.Next(1, 4)) * velocityScale),
+                    velocity: new Vector((rnd.NextDouble() - 0.5) * velocityScale, (rnd.NextDouble() - 0.5) * velocityScale),
                     diameter: 2e9
                 ));
             }
@@ -94,6 +84,7 @@ namespace Engine.ViewModel
         public static Universe StartSquareSystem()
         {
             int i, j;
+            double rectangleWidthUnit = 1e11, rectangleHeightUnit = 1e11, center = -0.5e12;
             Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
@@ -102,7 +93,7 @@ namespace Engine.ViewModel
                 for (i = 0; i < 10; i++)
                 {
                     bodies.Add(new PhysicalBody(
-                        coordinates: new Vector(0.5e11 + 1e11 * i, 0.5e11 + 1e11 * j),
+                        coordinates: new Vector(center + rectangleWidthUnit * i, center + rectangleHeightUnit * j),
                         mass: 1e30,
                         velocity: Vector.ZeroVector(),
                         diameter: 3e9
@@ -123,14 +114,14 @@ namespace Engine.ViewModel
         public static Universe StartCircleSystem(int numberOfBodies)
         {
             int i;
-            double radius = 4e11, center = 5e11, velocity = 3e4;
+            double radius = 4e11, velocity = 3e4;
             Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (i = 0; i < numberOfBodies; i++)
             {
                 bodies.Add(new PhysicalBody(
-                    coordinates: new Vector(center + radius * Math.Sin(2 * Math.PI / numberOfBodies * i), center + radius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
+                    coordinates: new Vector(radius * Math.Sin(2 * Math.PI / numberOfBodies * i), radius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
                     mass: 2e30,
                     velocity: new Vector(velocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -velocity * Math.Sin(2 * Math.PI / numberOfBodies * i)),
                     diameter: 4e9
@@ -150,7 +141,7 @@ namespace Engine.ViewModel
         public static Universe StartMultiCircleSystem(double radius, int numberOfCircles, int numberOfBodies)
         {
             int i, j;
-            double velocity = 5e4, center = radius * 1.5, mass = 2e30;
+            double velocity = 5e4, mass = 2e30;
             Universe result;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
@@ -159,7 +150,7 @@ namespace Engine.ViewModel
                 for (i = 0; i < numberOfBodies; i++)
                 {
                     bodies.Add(new PhysicalBody(
-                        coordinates: new Vector(center + radius * (j + 1) / numberOfCircles  * Math.Sin(2 * Math.PI / numberOfBodies * i), center + radius * (j + 1) / numberOfCircles * Math.Cos(2 * Math.PI / numberOfBodies * i)),
+                        coordinates: new Vector(radius * (j + 1) / numberOfCircles  * Math.Sin(2 * Math.PI / numberOfBodies * i), radius * (j + 1) / numberOfCircles * Math.Cos(2 * Math.PI / numberOfBodies * i)),
                         mass: mass,
                         velocity: new Vector(velocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -velocity * Math.Sin(2 * Math.PI / numberOfBodies * i)),
                         diameter: 1e9
@@ -180,9 +171,9 @@ namespace Engine.ViewModel
         public static Universe StartGalaxySystem(int numberOfBodies)
         {
             int i;
+            double radiusScale = 5e15, currVelocity, currRadius, massScale = 2e30;
             Universe result = new Universe();
             NormalRandom rnd1 = new NormalRandom();
-            double radiusScale = 5e15, currVelocity, currRadius, massScale = 2e30, center = 5e15;
             List<MaterialPoint> bodies = new List<MaterialPoint>();
 
             for (i = 0; i < numberOfBodies; i++)
@@ -191,7 +182,7 @@ namespace Engine.ViewModel
                 currVelocity = Math.Sqrt(result.G * 0.5 * massScale * numberOfBodies / radiusScale);
 
                 bodies.Add(new PhysicalBody(
-                    coordinates: new Vector(center + currRadius * Math.Sin(2 * Math.PI / numberOfBodies * i), center + currRadius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
+                    coordinates: new Vector(currRadius * Math.Sin(2 * Math.PI / numberOfBodies * i), currRadius * Math.Cos(2 * Math.PI / numberOfBodies * i)),
                     mass: rnd.NextDouble() * massScale,
                     velocity: new Vector(currVelocity * Math.Cos(2 * Math.PI / numberOfBodies * i), -currVelocity * Math.Sin(2 * Math.PI / numberOfBodies * i)),
                     diameter: 5e13
