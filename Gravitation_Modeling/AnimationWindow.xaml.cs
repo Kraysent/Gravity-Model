@@ -15,8 +15,12 @@ namespace Gravitation_Modeling
 {
     public partial class AnimationWindow : Window
     {
+        //Does not start after any adjustment
+
         private Universe _universe;
         private List<Ellipse> _bodies = new List<Ellipse>();
+        private List<Ellipse> _horizontalProjections = new List<Ellipse>();
+        private List<Ellipse> _verticalProjections = new List<Ellipse>();
         private DispatcherTimer _timer = new DispatcherTimer();
         private bool _isPaused = false;
 
@@ -48,6 +52,7 @@ namespace Gravitation_Modeling
         private void Universe_BodyAdded(MaterialPoint body)
         {
             Ellipse ellipse = new Ellipse();
+            Ellipse hEllipse, vEllipse;
 
             if (body is PhysicalBody)
             {
@@ -65,12 +70,24 @@ namespace Gravitation_Modeling
 
             _bodies.Add(ellipse);
             MainCanvas.Children.Add(ellipse);
+            
+            hEllipse = new Ellipse() { Width = 10, Height = 10, Fill = Brushes.DarkGray, Stroke = Brushes.Black };
+            _horizontalProjections.Add(hEllipse);
+            HorizontalCanvas.Children.Add(hEllipse);
+
+            vEllipse = new Ellipse() { Width = 10, Height = 10, Fill = Brushes.DarkGray, Stroke = Brushes.Black };
+            _verticalProjections.Add(vEllipse);
+            VerticalCanvas.Children.Add(vEllipse);
         }
 
         private void Universe_BodyDeleted(int bodyNumber)
         {
             MainCanvas.Children.Remove(_bodies[bodyNumber]);
             _bodies.RemoveAt(bodyNumber);
+            HorizontalCanvas.Children.Remove(_horizontalProjections[bodyNumber]);
+            _horizontalProjections.RemoveAt(bodyNumber);
+            VerticalCanvas.Children.Remove(_verticalProjections[bodyNumber]);
+            _verticalProjections.RemoveAt(bodyNumber);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -105,6 +122,13 @@ namespace Gravitation_Modeling
 
                     Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * xScale + xBias - _bodies[i].Width / 2);
                     Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias - _bodies[i].Height / 2);
+
+                    Canvas.SetLeft(_horizontalProjections[i], _universe.Bodies[i].Coordinates.X * xScale + xBias);
+                    Canvas.SetTop(_horizontalProjections[i], 20);
+
+                    Canvas.SetLeft(_verticalProjections[i], 50);
+                    Canvas.SetTop(_verticalProjections[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias);
+
                 }
             }
             catch { }
@@ -154,3 +178,4 @@ namespace Gravitation_Modeling
         }
     }
 }
+

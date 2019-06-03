@@ -38,7 +38,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Hashes" DisplayMemberBinding="{Binding Hash}" Width="50">
+                        <GridViewColumn Header="Hashes" DisplayMemberBinding="{Binding Hash}" Width="0">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label>Hash</Label>
