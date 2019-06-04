@@ -118,7 +118,7 @@ namespace WPFUI
                 }
             }
         }
-
+        
         private class UniverseDescription
         {
             public string Name { get; set; }

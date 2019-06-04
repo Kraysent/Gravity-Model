@@ -3,12 +3,14 @@ using Engine.ViewModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.IO;
 
 namespace Gravitation_Modeling
@@ -174,6 +176,23 @@ namespace Gravitation_Modeling
 
                 json = JsonConvert.SerializeObject(_universe, settings);
                 File.WriteAllText(dialog.FileName, json);
+            }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            _timer.Stop();
+        }
+
+        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                _universe.CameraFOV = _universe.CameraFOV / 1.1;
+            }
+            else if (e.Delta < 0)
+            {
+                _universe.CameraFOV = _universe.CameraFOV * 1.1;
             }
         }
     }

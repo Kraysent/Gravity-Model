@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gravitation_Modeling"
         mc:Ignorable="d"
-        Title="AnimationWindow" Height="1000" Width="1500">
+        Title="AnimationWindow" Height="1000" Width="1500"
+        Closing="Window_Closing"
+        MouseWheel="Window_MouseWheel">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
