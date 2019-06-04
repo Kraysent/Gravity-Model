@@ -48,8 +48,8 @@ namespace WPFUI
 
         private void AdjustButton_Click(object sender, RoutedEventArgs e)
         {
-            int mapHash = ((sender as Button).DataContext as UniverseDescription).Hash;
-            //MessageBox.Show(mapHash.ToString());
+            int mapHash = ((sender as Button).DataContext as UniverseDescription).Hash, currHash;
+            
             foreach (Universe universe in _universes)
             {
                 if (universe.GetHashCode() == mapHash)
@@ -57,6 +57,16 @@ namespace WPFUI
                     AdjustmentWindow window = new AdjustmentWindow(universe);
 
                     window.ShowDialog();
+
+                    for (int i = 0; i < MapsListView.Items.Count; i++)
+                    {
+                        currHash = (MapsListView.Items[i] as UniverseDescription).Hash;
+
+                        if (currHash == mapHash)
+                        {
+                            MapsListView.Items[i] = new UniverseDescription(universe.Name, universe.GetHashCode());
+                        }
+                    }
                 }
             }
         }

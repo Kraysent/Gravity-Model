@@ -15,8 +15,6 @@ namespace Gravitation_Modeling
 {
     public partial class AnimationWindow : Window
     {
-        //Does not start after any adjustment
-
         private Universe _universe;
         private List<Ellipse> _bodies = new List<Ellipse>();
         private List<Ellipse> _horizontalProjections = new List<Ellipse>();
@@ -126,9 +124,9 @@ namespace Gravitation_Modeling
                     Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias - _bodies[i].Height / 2);
 
                     Canvas.SetLeft(_horizontalProjections[i], _universe.Bodies[i].Coordinates.X * xScale + xBias);
-                    Canvas.SetTop(_horizontalProjections[i], 20);
+                    Canvas.SetTop(_horizontalProjections[i], HorizontalCanvas.ActualHeight / 2 - 5);
 
-                    Canvas.SetLeft(_verticalProjections[i], 50);
+                    Canvas.SetLeft(_verticalProjections[i], VerticalCanvas.ActualWidth / 2 - 5);
                     Canvas.SetTop(_verticalProjections[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias);
 
                 }
