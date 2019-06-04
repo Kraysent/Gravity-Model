@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.IO;
+using System.Threading;
 
 namespace Gravitation_Modeling
 {
@@ -24,7 +25,7 @@ namespace Gravitation_Modeling
         private DispatcherTimer _timer = new DispatcherTimer();
         private bool _isPaused = false;
         private int _fps = 1000;
-
+        
         public AnimationWindow(Universe universe)
         {
             InitializeComponent();
@@ -54,11 +55,13 @@ namespace Gravitation_Modeling
         {
             Ellipse ellipse = new Ellipse();
             Ellipse hEllipse, vEllipse;
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            Brush currBrush;
 
             if (body is PhysicalBody)
             {
-                ellipse.Width = Math.Log(((PhysicalBody)body).Diameter);
-                ellipse.Height = Math.Log(((PhysicalBody)body).Diameter);
+                ellipse.Width = Sigma(((PhysicalBody)body).Diameter + 1e9) * 20 + 5;
+                ellipse.Height = ellipse.Width;
             }
             else
             {
@@ -66,19 +69,21 @@ namespace Gravitation_Modeling
                 ellipse.Height = 10;
             }
 
-            ellipse.Fill = Brushes.Gray;
+            currBrush = new SolidColorBrush(Color.FromArgb((byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255)));
+            ellipse.Fill = currBrush;
             ellipse.Stroke = Brushes.Black;
 
             _bodies.Add(ellipse);
             MainCanvas.Children.Add(ellipse);
             
-            hEllipse = new Ellipse() { Width = 10, Height = 10, Fill = Brushes.DarkGray, Stroke = Brushes.Black };
+            hEllipse = new Ellipse() { Width = 10, Height = 10, Fill = currBrush, Stroke = Brushes.Black };
             _horizontalProjections.Add(hEllipse);
             HorizontalCanvas.Children.Add(hEllipse);
 
-            vEllipse = new Ellipse() { Width = 10, Height = 10, Fill = Brushes.DarkGray, Stroke = Brushes.Black };
+            vEllipse = new Ellipse() { Width = 10, Height = 10, Fill = currBrush, Stroke = Brushes.Black };
             _verticalProjections.Add(vEllipse);
             VerticalCanvas.Children.Add(vEllipse);
+            Thread.Sleep(2);
         }
 
         private void Universe_BodyDeleted(int bodyNumber)
@@ -194,6 +199,29 @@ namespace Gravitation_Modeling
             {
                 _universe.CameraFOV = _universe.CameraFOV * 1.1;
             }
+        }
+
+        private void RewindButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private double Sigma(double x)
+        {
+            return 1 / (1 + Math.Exp(-x));
+        }
+
+        private double GeometricMean(params double[] numbers)
+        {
+            double pow = 1 / numbers.Length;
+            double res = 0;
+
+            foreach (double num in numbers)
+            {
+                res *= Math.Pow(num, pow);
+            }
+
+            return res;
         }
     }
 }
