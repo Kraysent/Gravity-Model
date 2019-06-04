@@ -16,18 +16,20 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="12*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="10*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Button Name="PauseButton" Margin="5" Width="75" Grid.Row="0" HorizontalAlignment="Left" Content="Pause" Click="PauseButton_Click"/>
         <Button Name="SaveButton"  Margin="5" Width="75" Grid.Row="1" HorizontalAlignment="Left" Content="Save" Click="SaveButton_Click"/>
         <Label Name="EpochLabel" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Content="Epoch: 0"/>
         <Label Name="BodiesLabel" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Content="Number of bodies: 0"/>
-        <Rectangle Fill="LightGray" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Stroke="Black"/>
-        <Canvas Name="MainCanvas" Grid.Row="2" Grid.ColumnSpan="3" ClipToBounds="True"/>
-        <Rectangle Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="0, 10" Fill="LightGray" Stroke="Black"/>
-        <Canvas Name="HorizontalCanvas" Grid.Row="3" Grid.ColumnSpan="3" ClipToBounds="True"/>
-        <Rectangle Grid.Column="3" Grid.Row="2" Margin="10, 0" Fill="LightGray" Stroke="Black"/>
-        <Canvas Name="VerticalCanvas" Grid.Row="2" Grid.Column="3" ClipToBounds="True"/>
+        <Label Name="FPSLabel" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Content="FPS:"/>
+        <Rectangle Fill="LightGray" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Stroke="Black"/>
+        <Canvas Name="MainCanvas" Grid.Row="2" Grid.ColumnSpan="4" ClipToBounds="True"/>
+        <Rectangle Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Margin="0, 10" Fill="LightGray" Stroke="Black"/>
+        <Canvas Name="HorizontalCanvas" Grid.Row="3" Grid.ColumnSpan="4" ClipToBounds="True"/>
+        <Rectangle Grid.Column="4" Grid.Row="2" Margin="10, 0" Fill="LightGray" Stroke="Black"/>
+        <Canvas Name="VerticalCanvas" Grid.Row="2" Grid.Column="4" ClipToBounds="True"/>
     </Grid>
 </Window>

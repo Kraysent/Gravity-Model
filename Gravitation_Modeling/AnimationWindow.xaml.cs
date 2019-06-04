@@ -23,6 +23,7 @@ namespace Gravitation_Modeling
         private List<Ellipse> _verticalProjections = new List<Ellipse>();
         private DispatcherTimer _timer = new DispatcherTimer();
         private bool _isPaused = false;
+        private int _fps = 1000;
 
         public AnimationWindow(Universe universe)
         {
@@ -33,7 +34,7 @@ namespace Gravitation_Modeling
             InitializeUniverse();
 
             _timer.Tick += Timer_Tick;
-            _timer.Interval = new TimeSpan(1);
+            _timer.Interval = new TimeSpan(_fps / 1000);
             _timer.Start();
         }
         
@@ -105,6 +106,7 @@ namespace Gravitation_Modeling
 
                 EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
                 BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
+                FPSLabel.Content = $"FPS: {_fps}";
 
                 for (i = 0; i < _bodies.Count; i++)
                 {

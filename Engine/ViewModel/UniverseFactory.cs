@@ -23,7 +23,8 @@ namespace Engine.ViewModel
             result.Name = "Solar System";
             result.CameraFOV = 30e11;
             result.CollisionsType = CollisionType.NoCollisions;
-            result.DeltaTime = 3600 * 2;
+            result.DeltaTime = 3600;
+            result.EnableTracers = false;
 
             return result;
         }
