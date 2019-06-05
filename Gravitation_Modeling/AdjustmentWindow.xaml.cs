@@ -3,7 +3,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Gravitation_Modeling
+namespace WPFUI
 {
     public partial class AdjustmentWindow : Window
     {

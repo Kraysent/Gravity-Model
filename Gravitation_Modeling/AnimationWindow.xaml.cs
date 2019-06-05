@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.IO;
 using System.Threading;
 
-namespace Gravitation_Modeling
+namespace WPFUI
 {
     public partial class AnimationWindow : Window
     {
@@ -162,6 +162,9 @@ namespace Gravitation_Modeling
             SaveFileDialog dialog = new SaveFileDialog();
             string json;
 
+            dialog.Filter = "Map files (*.gmap)|*.gmap";
+            dialog.DefaultExt = "gmap";
+            dialog.AddExtension = true;
             PauseButton_Click(this, new RoutedEventArgs());
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(dialog.FileName))
@@ -225,4 +228,3 @@ namespace Gravitation_Modeling
         }
     }
 }
-
