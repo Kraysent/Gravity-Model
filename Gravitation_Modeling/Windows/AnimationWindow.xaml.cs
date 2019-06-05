@@ -112,6 +112,8 @@ namespace WPFUI
                 EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
                 BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
                 FPSLabel.Content = $"FPS: {_fps}";
+                FieldWidthLabel.Content = $"Width: {(Width / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
+                FieldHeightLabel.Content = $"Height: {(Height / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
 
                 for (i = 0; i < _bodies.Count; i++)
                 {
@@ -206,25 +208,12 @@ namespace WPFUI
 
         private void RewindButton_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
 
         private double Sigma(double x)
         {
             return 1 / (1 + Math.Exp(-x));
-        }
-
-        private double GeometricMean(params double[] numbers)
-        {
-            double pow = 1 / numbers.Length;
-            double res = 0;
-
-            foreach (double num in numbers)
-            {
-                res *= Math.Pow(num, pow);
-            }
-
-            return res;
         }
     }
 }
