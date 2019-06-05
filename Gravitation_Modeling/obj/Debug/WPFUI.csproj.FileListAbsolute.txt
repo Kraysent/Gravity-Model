@@ -22,3 +22,5 @@ D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\Animati
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\AdjustmentWindow.baml
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\MainWindow.g.cs
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\MainWindow.baml
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\CreateMapWindow.baml
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\CreateMapWindow.g.cs

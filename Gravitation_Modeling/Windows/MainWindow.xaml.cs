@@ -1,5 +1,4 @@
 ﻿using Engine.ViewModel;
-using WPFUI;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -118,7 +117,14 @@ namespace WPFUI
                 }
             }
         }
-        
+
+        private void CreateMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            Windows.CreateMapWindow window = new Windows.CreateMapWindow();
+
+            window.ShowDialog();
+        }
+
         private class UniverseDescription
         {
             public string Name { get; set; }

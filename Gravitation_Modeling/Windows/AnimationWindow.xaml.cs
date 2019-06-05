@@ -112,6 +112,7 @@ namespace WPFUI
                 EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
                 BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
                 FPSLabel.Content = $"FPS: {_fps}";
+                //Not width, but canvas.ActualWidth
                 FieldWidthLabel.Content = $"Width: {(Width / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
                 FieldHeightLabel.Content = $"Height: {(Height / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
 
@@ -211,9 +212,6 @@ namespace WPFUI
             throw new NotImplementedException();
         }
 
-        private double Sigma(double x)
-        {
-            return 1 / (1 + Math.Exp(-x));
-        }
+        private double Sigma(double x) => 1 / (1 + Math.Exp(-x));
     }
 }
