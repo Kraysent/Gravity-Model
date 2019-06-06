@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="16*"></RowDefinition>
+            <RowDefinition Height="20*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -29,7 +29,9 @@
             </Button>
         </Menu>
         <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
-            <Button Name="SaveMapButton" Content="Save" IsEnabled="False"/>
+            <Button Name="SaveMapButton" Width="30" Height="30" Click="SaveMapButton_Click">
+                <Image Source="pack://application:,,,/Resources/Save.png"/>
+            </Button>
             <Button Name="PlayMapButton" Content="Play" IsEnabled="False"/>
         </Menu>
         <Label Name="WidthLabel" Content="Width: 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Top"/>
