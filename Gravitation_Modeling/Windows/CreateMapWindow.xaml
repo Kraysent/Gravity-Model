@@ -5,23 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="CreateMapWindow" Height="800" Width="1000"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        MouseWheel="Window_MouseWheel">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="18*"></ColumnDefinition>
+            <ColumnDefinition Width="15*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="16*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Rectangle Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Fill="LightGray" Stroke="Black"/>
-        <Canvas Name="MainCanvas" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" MouseDown="MainCanvas_MouseDown"/>
-        <Button Name="NewBodyButton" Grid.Column="0" Grid.Row="0" Margin="5" Click="NewBodyButton_Click">
-            <Image Source="pack://application:,,,/Resources/Body.png"/>
-        </Button>
+        <Rectangle Grid.Column="1" Grid.Row="1" Fill="LightGray" Stroke="Black" PreviewMouseLeftButtonDown="MainRectangle_PreviewMouseLeftButtonDown"/>
+        <Canvas Name="MainCanvas" Grid.Column="1" Grid.Row="1" ClipToBounds="True"/>
+        <Menu Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+            <Button x:Name="NewBodyButton" Width="30" Height="30" Click="NewBodyButton_Click">
+                <Image Source="pack://application:,,,/Resources/Body.png"/>
+            </Button>
+        </Menu>
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
+            <Button Name="SaveMapButton" Content="Save" IsEnabled="False"/>
+            <Button Name="PlayMapButton" Content="Play" IsEnabled="False"/>
+        </Menu>
+        <Label Name="WidthLabel" Content="Width: 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Top"/>
+        <Label Name="HeightLabel" Content="Height: 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center">
+            <Label.LayoutTransform>
+                <RotateTransform Angle="270"/>
+            </Label.LayoutTransform>
+        </Label>
     </Grid>
 </Window>

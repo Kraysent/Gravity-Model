@@ -109,12 +109,12 @@ namespace WPFUI
             {
                 _universe.Update();
 
-                EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
-                BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
-                FPSLabel.Content = $"FPS: {_fps}";
-                //Not width, but canvas.ActualWidth
-                FieldWidthLabel.Content = $"Width: {(Width / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
-                FieldHeightLabel.Content = $"Height: {(Height / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
+                //EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
+                //BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
+                //FPSLabel.Content = $"FPS: {_fps}";
+                ////Not width, but canvas.ActualWidth
+                //FieldWidthLabel.Content = $"Width: {(Width / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
+                //FieldHeightLabel.Content = $"Height: {(Height / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
 
                 for (i = 0; i < _bodies.Count; i++)
                 {
@@ -130,16 +130,18 @@ namespace WPFUI
                         MainCanvas.Children.Add(p);
                     }
 
-                    Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * xScale + xBias - _bodies[i].Width / 2);
-                    Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias - _bodies[i].Height / 2);
+                    //Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * xScale + xBias - _bodies[i].Width / 2);
+                    //Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias - _bodies[i].Height / 2);
 
-                    Canvas.SetLeft(_horizontalProjections[i], _universe.Bodies[i].Coordinates.X * xScale + xBias);
-                    Canvas.SetTop(_horizontalProjections[i], HorizontalCanvas.ActualHeight / 2 - 5);
+                    //Canvas.SetLeft(_horizontalProjections[i], _universe.Bodies[i].Coordinates.X * xScale + xBias);
+                    //Canvas.SetTop(_horizontalProjections[i], HorizontalCanvas.ActualHeight / 2 - 5);
 
-                    Canvas.SetLeft(_verticalProjections[i], VerticalCanvas.ActualWidth / 2 - 5);
-                    Canvas.SetTop(_verticalProjections[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias);
+                    //Canvas.SetLeft(_verticalProjections[i], VerticalCanvas.ActualWidth / 2 - 5);
+                    //Canvas.SetTop(_verticalProjections[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias);
 
                 }
+
+                UpdateField();
             }
             catch { }
         }
@@ -205,11 +207,41 @@ namespace WPFUI
             {
                 _universe.CameraFOV = _universe.CameraFOV * 1.1;
             }
+
+            UpdateField();
         }
 
         private void RewindButton_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void UpdateField()
+        {
+            int i;
+            double width = MainCanvas.ActualWidth;
+            double height = MainCanvas.ActualHeight;
+            double scale = Math.Min(Height, width) / _universe.CameraFOV;
+            double xBias = width / 2;
+            double yBias = Height / 2;
+
+            EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
+            BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
+            FPSLabel.Content = $"FPS: {_fps}";
+            FieldWidthLabel.Content = $"Width: {(width / Math.Max(width, height) * _universe.CameraFOV).ToString("E3")} meters";
+            FieldHeightLabel.Content = $"Height: {(height / Math.Max(width, height) * _universe.CameraFOV).ToString("E3")} meters";
+
+            for (i = 0; i < _bodies.Count; i++)
+            {
+                Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * scale + xBias - _bodies[i].Width / 2);
+                Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * scale + yBias - _bodies[i].Height / 2);
+
+                Canvas.SetLeft(_horizontalProjections[i], _universe.Bodies[i].Coordinates.X * scale + xBias);
+                Canvas.SetTop(_horizontalProjections[i], HorizontalCanvas.ActualHeight / 2 - 5);
+
+                Canvas.SetLeft(_verticalProjections[i], VerticalCanvas.ActualWidth / 2 - 5);
+                Canvas.SetTop(_verticalProjections[i], _universe.Bodies[i].Coordinates.Y * scale + yBias);
+            }
         }
 
         private double Sigma(double x) => 1 / (1 + Math.Exp(-x));
