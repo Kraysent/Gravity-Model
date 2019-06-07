@@ -34,6 +34,7 @@
             </Button>
             <Button Name="PlayMapButton" Content="Play" IsEnabled="False"/>
         </Menu>
+        <Rectangle Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" Stroke="Black" StrokeThickness="3"/>
         <Label Name="WidthLabel" Content="Width: 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Top"/>
         <Label Name="HeightLabel" Content="Height: 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center">
             <Label.LayoutTransform>

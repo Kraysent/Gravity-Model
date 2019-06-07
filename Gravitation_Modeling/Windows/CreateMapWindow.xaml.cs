@@ -16,7 +16,7 @@ namespace WPFUI.Windows
 {
     public partial class CreateMapWindow : Window
     {
-        //When started, height and width are 0
+        //When started, height and width are shown as 0
 
         private Universe _universe = new Universe();
         private List<Ellipse> _bodies = new List<Ellipse>();
@@ -45,20 +45,24 @@ namespace WPFUI.Windows
         {
             double width = MainCanvas.ActualWidth;
             double height = MainCanvas.ActualHeight;
+            double mouseX, mouseY, bodyX, bodyY;
+            Ellipse body;
 
             if (_currentItem == SelectedItem.Body)
             {
-                double mouseX = e.GetPosition(sender as IInputElement).X;
-                double mouseY = e.GetPosition(sender as IInputElement).Y;
-                double bodyX = (mouseX - width / 2) / width * (width / Math.Max(width, height) * _universe.CameraFOV);
-                double bodyY = (mouseY - height / 2) / height * (height / Math.Max(width, height) * _universe.CameraFOV);
+                mouseX = e.GetPosition(sender as IInputElement).X;
+                mouseY = e.GetPosition(sender as IInputElement).Y;
+                bodyX = (mouseX - width / 2) / width * (width / Math.Max(width, height) * _universe.CameraFOV);
+                bodyY = (mouseY - height / 2) / height * (height / Math.Max(width, height) * _universe.CameraFOV);
 
                 _universe.Add(new MaterialPoint(new Vector2(bodyX, bodyY), 1e30, new Vector2(0, 0)));
-                
-                _bodies.Add(new Ellipse() { Width = 10, Height = 10, Fill = Brushes.DarkGray, Stroke = Brushes.Black });
-                Canvas.SetLeft(_bodies[_bodies.Count - 1], mouseX - 5);
-                Canvas.SetTop(_bodies[_bodies.Count - 1], mouseY - 5);
-                MainCanvas.Children.Add(_bodies[_bodies.Count - 1]);
+
+                body = new Ellipse() { Width = 10, Height = 10, Fill = Brushes.DarkGray, Stroke = Brushes.Black };
+                body.PreviewMouseDown += BodyEllipse_MouseDown;
+                _bodies.Add(body);
+                Canvas.SetLeft(body, mouseX - 5);
+                Canvas.SetTop(body, mouseY - 5);
+                MainCanvas.Children.Add(body);
             }
         }
         
@@ -76,21 +80,22 @@ namespace WPFUI.Windows
             UpdateField();
         }
         
-        private void UpdateField()
+        private void BodyEllipse_MouseDown(object sender, MouseEventArgs e)
         {
-            double width = MainCanvas.ActualWidth;
-            double height = MainCanvas.ActualHeight;
-            double scale = Math.Min(Height, Width) / _universe.CameraFOV;
-            double xBias = width / 2;
-            double yBias = height / 2;
+            Ellipse body = sender as Ellipse;
+            double x = Canvas.GetLeft(body), bX;
+            double y = Canvas.GetTop(body), bY;
+            int i;
 
-            WidthLabel.Content = $"Width: {(width / Math.Max(width, height) * _universe.CameraFOV).ToString("E3")} meters";
-            HeightLabel.Content = $"Height: {(height / Math.Max(width, height) * _universe.CameraFOV).ToString("E3")} meters";
-
-            for (int i = 0; i < _bodies.Count; i++)
+            for (i = 0; i < _bodies.Count; i++)
             {
-                Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * scale + xBias - _bodies[i].Width / 2);
-                Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * scale + yBias - _bodies[i].Height / 2);
+                bX = Canvas.GetLeft(_bodies[i]);
+                bY = Canvas.GetTop(_bodies[i]);
+                
+                if (x == bX && y == bY)
+                {
+                    break;
+                }
             }
         }
 
@@ -120,6 +125,24 @@ namespace WPFUI.Windows
 
                 json = JsonConvert.SerializeObject(_universe, settings);
                 File.WriteAllText(dialog.FileName, json);
+            }
+        }
+
+        private void UpdateField()
+        {
+            double width = MainCanvas.ActualWidth;
+            double height = MainCanvas.ActualHeight;
+            double scale = Math.Min(Height, Width) / _universe.CameraFOV;
+            double xBias = width / 2;
+            double yBias = height / 2;
+
+            WidthLabel.Content = $"Width: {(width / Math.Max(width, height) * _universe.CameraFOV).ToString("E3")} meters";
+            HeightLabel.Content = $"Height: {(height / Math.Max(width, height) * _universe.CameraFOV).ToString("E3")} meters";
+
+            for (int i = 0; i < _bodies.Count; i++)
+            {
+                Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * scale + xBias - _bodies[i].Width / 2);
+                Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * scale + yBias - _bodies[i].Height / 2);
             }
         }
 

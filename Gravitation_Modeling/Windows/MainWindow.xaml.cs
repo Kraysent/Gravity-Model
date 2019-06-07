@@ -1,6 +1,7 @@
 ﻿using Engine.ViewModel;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -12,7 +13,6 @@ namespace WPFUI
     public partial class MainWindow : Window
     {
         private List<Universe> _universes = new List<Universe>();
-        private List<UniverseDescription> _descriptions = new List<UniverseDescription>();
 
         public MainWindow()
         {
@@ -33,53 +33,24 @@ namespace WPFUI
 
         private void MapButton_Click(object sender, RoutedEventArgs e)
         {
-            int mapHash = ((sender as Button).DataContext as UniverseDescription).Hash;
+            Universe universe = (sender as Button).DataContext as Universe;
+            AnimationWindow window = new AnimationWindow(universe);
 
-            foreach (Universe universe in _universes)
-            {
-                if (universe.GetHashCode() == mapHash)
-                {
-                    AnimationWindow window = new AnimationWindow(universe);
-                    window.Show();
-                }
-            }
+            window.ShowDialog();
         }
 
         private void AdjustButton_Click(object sender, RoutedEventArgs e)
         {
-            int mapHash = ((sender as Button).DataContext as UniverseDescription).Hash, currHash;
-            
-            foreach (Universe universe in _universes)
-            {
-                if (universe.GetHashCode() == mapHash)
-                {
-                    AdjustmentWindow window = new AdjustmentWindow(universe);
+            Universe universe = (sender as Button).DataContext as Universe;
+            AdjustmentWindow window = new AdjustmentWindow(universe);
 
-                    window.ShowDialog();
-
-                    for (int i = 0; i < MapsListView.Items.Count; i++)
-                    {
-                        currHash = (MapsListView.Items[i] as UniverseDescription).Hash;
-
-                        if (currHash == mapHash)
-                        {
-                            MapsListView.Items[i] = new UniverseDescription(universe.Name, universe.GetHashCode());
-                        }
-                    }
-                }
-            }
+            window.ShowDialog();
         }
 
         private void AddUniverse(Universe universe)
         {
-            if (!_universes.Any(x => x.GetHashCode() == universe.GetHashCode()))
-            {
-                UniverseDescription descr = new UniverseDescription(universe.Name, universe.GetHashCode());
-
-                _universes.Add(universe);
-                _descriptions.Add(descr);
-                MapsListView.Items.Add(descr);
-            }
+            _universes.Add(universe);
+            MapsListView.Items.Add(universe);
         }
 
         private void OpenMapButton_Click(object sender, RoutedEventArgs e)
@@ -123,18 +94,6 @@ namespace WPFUI
             Windows.CreateMapWindow window = new Windows.CreateMapWindow();
 
             window.ShowDialog();
-        }
-
-        private class UniverseDescription
-        {
-            public string Name { get; set; }
-            public int Hash { get; set; }
-
-            public UniverseDescription(string name, int hash)
-            {
-                Name = name;
-                Hash = hash;
-            }
         }
     }
 }

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFUI"
         mc:Ignorable="d"
         Title="Gravity Simulation" Height="500" Width="500" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
@@ -23,7 +22,7 @@
             <Button Name="OpenMapButton" Grid.Row="2" Grid.Column="0" Margin="10" Content="Open map" Click="OpenMapButton_Click"/>
             <Button Name="CreateMapButton" Grid.Row="2" Grid.Column="1" Margin="10" Content="Create map" Click="CreateMapButton_Click"/>
             <Button Name="HideDefaultMapsButton" Grid.Row="2" Grid.Column="2" Margin="10" Content="Hide standarts" IsEnabled="False"/>
-            <ListView Name="MapsListView" HorizontalAlignment="Left" Width="455" Height="370" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="3">
+            <ListView Name="MapsListView" Width="455" Height="370" Margin="10" Grid.Row="1" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>
@@ -36,13 +35,6 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label>Map</Label>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Hashes" DisplayMemberBinding="{Binding Hash}" Width="0">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label>Hash</Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
