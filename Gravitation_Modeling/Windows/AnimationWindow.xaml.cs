@@ -4,15 +4,15 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.IO;
-using System.Threading;
+using WinForms = System.Windows.Forms;
 
 namespace WPFUI
 {
@@ -33,7 +33,7 @@ namespace WPFUI
 
             _universe = universe.Clone() as Universe;
             InitializeUniverse();
-
+            
             _timer.Tick += Timer_Tick;
             _timer.Interval = new TimeSpan(_fps / 1000);
             _timer.Start();
@@ -108,14 +108,7 @@ namespace WPFUI
             try
             {
                 _universe.Update();
-
-                //EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
-                //BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
-                //FPSLabel.Content = $"FPS: {_fps}";
-                ////Not width, but canvas.ActualWidth
-                //FieldWidthLabel.Content = $"Width: {(Width / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
-                //FieldHeightLabel.Content = $"Height: {(Height / Math.Max(Width, Height) * _universe.CameraFOV).ToString("E3")} meters";
-
+                
                 for (i = 0; i < _bodies.Count; i++)
                 {
                     if (_universe.EnableTracers == true && _universe.Epoch % 5 == 0)
@@ -129,16 +122,6 @@ namespace WPFUI
                         Canvas.SetTop(p, _universe.Bodies[i].Coordinates.Y * yScale + yBias);
                         MainCanvas.Children.Add(p);
                     }
-
-                    //Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * xScale + xBias - _bodies[i].Width / 2);
-                    //Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias - _bodies[i].Height / 2);
-
-                    //Canvas.SetLeft(_horizontalProjections[i], _universe.Bodies[i].Coordinates.X * xScale + xBias);
-                    //Canvas.SetTop(_horizontalProjections[i], HorizontalCanvas.ActualHeight / 2 - 5);
-
-                    //Canvas.SetLeft(_verticalProjections[i], VerticalCanvas.ActualWidth / 2 - 5);
-                    //Canvas.SetTop(_verticalProjections[i], _universe.Bodies[i].Coordinates.Y * yScale + yBias);
-
                 }
 
                 UpdateField();
@@ -164,7 +147,7 @@ namespace WPFUI
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
+            WinForms.SaveFileDialog dialog = new WinForms.SaveFileDialog();
             string json;
 
             dialog.Filter = "Map files (*.gmap)|*.gmap";
