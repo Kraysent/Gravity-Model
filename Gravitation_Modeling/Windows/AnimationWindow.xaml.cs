@@ -98,32 +98,9 @@ namespace WPFUI
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Ellipse p;
-            int i;
-            double xScale = Math.Min(Height, Width) / _universe.CameraFOV;
-            double yScale = Math.Min(Height, Width) / _universe.CameraFOV;
-            double xBias = Width / 2;
-            double yBias = Height / 2;
-
             try
             {
                 _universe.Update();
-                
-                for (i = 0; i < _bodies.Count; i++)
-                {
-                    if (_universe.EnableTracers == true && _universe.Epoch % 5 == 0)
-                    {
-                        p = new Ellipse();
-                        p.Width = 1;
-                        p.Height = 1;
-                        p.Fill = Brushes.Black;
-                        p.Stroke = Brushes.Black;
-                        Canvas.SetLeft(p, _universe.Bodies[i].Coordinates.X * xScale + xBias);
-                        Canvas.SetTop(p, _universe.Bodies[i].Coordinates.Y * yScale + yBias);
-                        MainCanvas.Children.Add(p);
-                    }
-                }
-
                 UpdateField();
             }
             catch { }
@@ -207,6 +184,7 @@ namespace WPFUI
             double scale = Math.Min(Height, width) / _universe.CameraFOV;
             double xBias = width / 2;
             double yBias = Height / 2;
+            Ellipse p;
 
             EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
             BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
@@ -216,6 +194,18 @@ namespace WPFUI
 
             for (i = 0; i < _bodies.Count; i++)
             {
+                if (_universe.EnableTracers == true && _universe.Epoch % 5 == 0)
+                {
+                    p = new Ellipse();
+                    p.Width = 1;
+                    p.Height = 1;
+                    p.Fill = Brushes.Black;
+                    p.Stroke = Brushes.Black;
+                    Canvas.SetLeft(p, _universe.Bodies[i].Coordinates.X * scale + xBias);
+                    Canvas.SetTop(p, _universe.Bodies[i].Coordinates.Y * scale + yBias);
+                    MainCanvas.Children.Add(p);
+                }
+
                 Canvas.SetLeft(_bodies[i], _universe.Bodies[i].Coordinates.X * scale + xBias - _bodies[i].Width / 2);
                 Canvas.SetTop(_bodies[i], _universe.Bodies[i].Coordinates.Y * scale + yBias - _bodies[i].Height / 2);
 

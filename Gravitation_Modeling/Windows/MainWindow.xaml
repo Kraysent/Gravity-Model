@@ -22,7 +22,7 @@
             <Button Name="OpenMapButton" Grid.Row="2" Grid.Column="0" Margin="10" Content="Open map" Click="OpenMapButton_Click"/>
             <Button Name="CreateMapButton" Grid.Row="2" Grid.Column="1" Margin="10" Content="Create map" Click="CreateMapButton_Click"/>
             <Button Name="HideDefaultMapsButton" Grid.Row="2" Grid.Column="2" Margin="10" Content="Hide standarts" IsEnabled="False"/>
-            <ListView Name="MapsListView" Width="455" Height="370" Margin="10" Grid.Row="1" Grid.ColumnSpan="3">
+            <ListView Name="MapsListView" Width="455" Height="370" Margin="10" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding _universes}">
                 <ListView.View>
                     <GridView>
                         <GridView.ColumnHeaderContainerStyle>
