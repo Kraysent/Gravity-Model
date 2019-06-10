@@ -21,12 +21,14 @@ namespace WPFUI.Windows
         private Universe _universe = new Universe();
         private List<Ellipse> _bodies = new List<Ellipse>();
         private SelectedItem _currentItem = SelectedItem.Cursor;
+        private UIElement _selectedObject;
 
         public CreateMapWindow()
         {
             InitializeComponent();
             _universe.Name = "Some map";
             _universe.EnableTracers = false;
+            MainPropertyMenu.PropertyUpdated += delegate (object sender, TextChangedEventArgs e) { UpdateField(); };
         }
         
         private void NewBodyButton_Click(object sender, RoutedEventArgs e)
@@ -34,6 +36,7 @@ namespace WPFUI.Windows
             if (_currentItem != SelectedItem.Body)
             {
                 _currentItem = SelectedItem.Body;
+                DeselectObject();
             }
             else
             {
@@ -83,6 +86,7 @@ namespace WPFUI.Windows
         private void BodyEllipse_MouseDown(object sender, MouseEventArgs e)
         {
             Ellipse body = sender as Ellipse;
+            MaterialPoint selectedPoint = null;
             double x = Canvas.GetLeft(body), bX;
             double y = Canvas.GetTop(body), bY;
             int i;
@@ -94,9 +98,14 @@ namespace WPFUI.Windows
                 
                 if (x == bX && y == bY)
                 {
+                    selectedPoint = _universe.Bodies[i];
                     break;
                 }
             }
+            
+            SelectObject(body);
+            MainPropertyMenu.Title = "Body";
+            MainPropertyMenu.Open(selectedPoint);
         }
 
         private void SaveMapButton_Click(object sender, RoutedEventArgs e)
@@ -128,6 +137,29 @@ namespace WPFUI.Windows
             }
         }
 
+        private void SelectObject(UIElement obj)
+        {
+            DeselectObject();
+
+            if (obj is Ellipse)
+            {
+                (obj as Ellipse).Fill = Brushes.Red;
+            }
+
+            _currentItem = SelectedItem.Selection;
+            _selectedObject = obj;
+        }
+
+        private void DeselectObject()
+        {
+            if (_selectedObject is Ellipse)
+            {
+                (_selectedObject as Ellipse).Fill = Brushes.DarkGray;
+            }
+
+            _selectedObject = null;
+        }
+
         private void UpdateField()
         {
             double width = MainCanvas.ActualWidth;
@@ -146,6 +178,6 @@ namespace WPFUI.Windows
             }
         }
 
-        private enum SelectedItem { Cursor, Body }
+        private enum SelectedItem { Cursor, Body, Selection }
     }
 }

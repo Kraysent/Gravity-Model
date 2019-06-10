@@ -24,3 +24,6 @@ D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\MainWin
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\MainWindow.baml
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\CreateMapWindow.baml
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\CreateMapWindow.g.cs
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Controls\PropertyMenu.baml
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Controls\PropertyMenu.g.cs
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\GeneratedInternalTypeHelper.g.cs

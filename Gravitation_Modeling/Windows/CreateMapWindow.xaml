@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:WPFUI.Controls"
         mc:Ignorable="d"
         Title="CreateMapWindow" Height="800" Width="1000"
         WindowStartupLocation="CenterScreen"
@@ -34,12 +35,14 @@
             </Button>
             <Button Name="PlayMapButton" Content="Play" IsEnabled="False"/>
         </Menu>
-        <Rectangle Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" Stroke="Black" StrokeThickness="3"/>
         <Label Name="WidthLabel" Content="Width: 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Top"/>
         <Label Name="HeightLabel" Content="Height: 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Center">
             <Label.LayoutTransform>
                 <RotateTransform Angle="270"/>
             </Label.LayoutTransform>
         </Label>
+
+        <Rectangle Grid.Column="3" Grid.Row="0" Grid.RowSpan="3" Stroke="Black" StrokeThickness="3"/>
+        <controls:PropertyMenu x:Name="MainPropertyMenu" Grid.Column="3" Grid.Row="0" Grid.RowSpan="3"/>
     </Grid>
 </Window>

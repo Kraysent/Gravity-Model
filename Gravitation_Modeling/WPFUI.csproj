@@ -62,6 +62,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\PropertyMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AdjustmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -78,6 +82,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Controls\PropertyMenu.xaml.cs">
+      <DependentUpon>PropertyMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AdjustmentWindow.xaml.cs">
       <DependentUpon>AdjustmentWindow.xaml</DependentUpon>
     </Compile>

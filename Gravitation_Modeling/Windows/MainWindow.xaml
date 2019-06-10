@@ -31,13 +31,7 @@
                                 <Setter Property="IsEnabled" Value="False"/>
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn Header="Names" DisplayMemberBinding="{Binding Name}" Width="200">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label>Map</Label>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        <GridViewColumn Header="Names" DisplayMemberBinding="{Binding Name}" Width="200"/>
                         <GridViewColumn Header="Start" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
