@@ -1,4 +1,4 @@
-﻿namespace Engine.ViewModel
+﻿namespace Engine.Models
 {
     public enum CollisionType
     {

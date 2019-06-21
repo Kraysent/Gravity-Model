@@ -1,4 +1,6 @@
-﻿namespace Engine.ViewModel
+﻿using Engine.Models;
+
+namespace Engine.ViewModel
 {
     public interface IFileService
     {

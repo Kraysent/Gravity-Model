@@ -1,8 +1,9 @@
 ﻿using Engine.Models;
+using Engine.ViewModel;
 using System;
 using System.Collections.Generic;
 
-namespace Engine.ViewModel
+namespace Engine.Factories
 {
     public class UniverseFactory
     {

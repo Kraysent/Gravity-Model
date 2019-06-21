@@ -1,9 +1,8 @@
-﻿using Engine.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Engine.ViewModel
+namespace Engine.Models
 {
     public class Universe : ICloneable
     {
@@ -79,7 +78,7 @@ namespace Engine.ViewModel
             }
         }
 
-        public void UpdateField()
+        private void UpdateField()
         {
             Vector[] forces = new Vector[Bodies.Count];
             Vector currForce, acceleration;

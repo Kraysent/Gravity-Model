@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Engine.Factories;
+using Engine.Models;
+using System.Collections.ObjectModel;
 
 namespace Engine.ViewModel
 {
