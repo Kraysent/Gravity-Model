@@ -12,25 +12,13 @@ namespace WPFUI
 {
     public partial class MainWindow : Window
     {
-        private List<Universe> _universes = new List<Universe>();
+        public MainViewModel ViewModel = new MainViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
-            InitializeUniversesList();
         }
         
-        public void InitializeUniversesList()
-        {
-            AddUniverse(UniverseFactory.StartSolarSystem());
-            AddUniverse(UniverseFactory.StartJupiterSystem());
-            AddUniverse(UniverseFactory.StartSquareSystem());
-            AddUniverse(UniverseFactory.StartRandomSystem(100));
-            AddUniverse(UniverseFactory.StartCircleSystem(20));
-            AddUniverse(UniverseFactory.StartMultiCircleSystem(5e11, 2, 20));
-            AddUniverse(UniverseFactory.StartGalaxySystem(100));
-        }
-
         private void MapButton_Click(object sender, RoutedEventArgs e)
         {
             Universe universe = (sender as Button).DataContext as Universe;
@@ -46,13 +34,7 @@ namespace WPFUI
 
             window.ShowDialog();
         }
-
-        private void AddUniverse(Universe universe)
-        {
-            _universes.Add(universe);
-            MapsListView.Items.Add(universe);
-        }
-
+        
         private void OpenMapButton_Click(object sender, RoutedEventArgs e)
         {
             WinForms.OpenFileDialog dialog = new WinForms.OpenFileDialog();
@@ -79,7 +61,7 @@ namespace WPFUI
                     };
 
                     selectedUniverse = (Universe)JsonConvert.DeserializeObject(json, settings);
-                    AddUniverse(selectedUniverse);
+                    ViewModel.AddUniverse(selectedUniverse);
 
                 }
                 catch

@@ -28,9 +28,9 @@ namespace Engine.ViewModel
         /// </summary>
         public double G { get; set; } = 6.67e-11;
         /// <summary>
-        /// Number of updates since start of the session
+        /// Number of seconds since start of the session
         /// </summary>
-        public int Epoch { get; set; } = 0;
+        public double Epoch { get; set; } = 0;
         /// <summary>
         /// Type of collisions in the system
         /// </summary>
@@ -75,7 +75,7 @@ namespace Engine.ViewModel
             for (i = 0; i < Speed; i++)
             {
                 UpdateField();
-                Epoch++;
+                Epoch += DeltaTime;
             }
         }
 

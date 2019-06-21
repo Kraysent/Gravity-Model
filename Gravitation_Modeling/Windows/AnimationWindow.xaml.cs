@@ -186,7 +186,7 @@ namespace WPFUI
             double yBias = Height / 2;
             Ellipse p;
 
-            EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch * _universe.DeltaTime) / (3600 * 24 * 365), 3)}";
+            EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch) / (3600 * 24 * 365), 3)}";
             BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
             FPSLabel.Content = $"FPS: {_fps}";
             FieldWidthLabel.Content = $"Width: {(width / Math.Max(width, height) * _universe.CameraFOV).ToString("E3")} meters";
