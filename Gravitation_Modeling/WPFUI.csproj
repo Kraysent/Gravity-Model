@@ -85,6 +85,8 @@
     <Compile Include="Controls\PropertyMenu.xaml.cs">
       <DependentUpon>PropertyMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Realisations\DefaultDialogService.cs" />
+    <Compile Include="Realisations\JsonFileService.cs" />
     <Compile Include="Windows\AdjustmentWindow.xaml.cs">
       <DependentUpon>AdjustmentWindow.xaml</DependentUpon>
     </Compile>
