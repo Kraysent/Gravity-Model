@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="Gravity Simulation" Height="500" Width="500" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <ViewModel:MainViewModel/>
+    </Window.DataContext>
     <Canvas x:Name="MainCanvas">
         <Grid x:Name="MainGrid" Height="465" Width="475">
             <Grid.RowDefinitions>

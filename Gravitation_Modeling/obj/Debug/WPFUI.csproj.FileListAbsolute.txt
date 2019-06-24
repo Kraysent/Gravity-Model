@@ -27,3 +27,5 @@ D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\CreateM
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Controls\PropertyMenu.baml
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Controls\PropertyMenu.g.cs
 D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\AnimationWindowExperiment.g.cs
+D:\Coding\C#\Gravitation_Modeling\Gravitation_Modeling\obj\Debug\Windows\AnimationWindowExperiment.baml

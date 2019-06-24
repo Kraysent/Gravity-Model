@@ -10,10 +10,8 @@ namespace Engine.ViewModel
         public IDialogService DialogService { get; set; }
         public IFileService FileService { get; set; }
         
-        public MainViewModel(IDialogService dialogService, IFileService fileService)
+        public MainViewModel()
         {
-            DialogService = dialogService;
-            FileService = fileService;
             InitializeUniversesList();
         }
         

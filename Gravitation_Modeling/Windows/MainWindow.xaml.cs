@@ -3,6 +3,7 @@ using Engine.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
 using WPFUI.Realisations;
+using WPFUI.Windows;
 
 namespace WPFUI
 {
@@ -12,15 +13,17 @@ namespace WPFUI
 
         public MainWindow()
         {
-            ViewModel = new MainViewModel(new DefaultDialogService(), new JsonFileService());
-            DataContext = ViewModel;
             InitializeComponent();
+            ViewModel = (MainViewModel)DataContext;
+            ViewModel.DialogService = new DefaultDialogService();
+            ViewModel.FileService = new JsonFileService();
         }
         
         private void MapButton_Click(object sender, RoutedEventArgs e)
         {
             Universe universe = (sender as Button).DataContext as Universe;
-            AnimationWindow window = new AnimationWindow(universe);
+            AnimationWindowExperiment window = new AnimationWindowExperiment(universe);
+            //AnimationWindow window = new AnimationWindow(universe);
 
             window.ShowDialog();
         }

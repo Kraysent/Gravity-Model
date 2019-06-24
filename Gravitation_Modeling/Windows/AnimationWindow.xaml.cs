@@ -68,7 +68,7 @@ namespace WPFUI
                 ellipse.Width = 10;
                 ellipse.Height = 10;
             }
-
+            
             currBrush = new SolidColorBrush(Color.FromArgb((byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255)));
             ellipse.Fill = currBrush;
             ellipse.Stroke = Brushes.Black;
@@ -181,11 +181,11 @@ namespace WPFUI
             int i;
             double width = MainCanvas.ActualWidth;
             double height = MainCanvas.ActualHeight;
-            double scale = Math.Min(Height, width) / _universe.CameraFOV;
+            double scale = Math.Min(height, width) / _universe.CameraFOV;
             double xBias = width / 2;
-            double yBias = Height / 2;
+            double yBias = height / 2;
             Ellipse p;
-
+            
             EpochLabel.Content = $"Epoch: year {Math.Round((_universe.Epoch) / (3600 * 24 * 365), 3)}";
             BodiesLabel.Content = $"Number of bodies: {_universe.Bodies.Count}";
             FPSLabel.Content = $"FPS: {_fps}";
