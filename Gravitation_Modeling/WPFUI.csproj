@@ -70,11 +70,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AnimationWindow.xaml">
+    <Page Include="Windows\AnimationWindowOld.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AnimationWindowExperiment.xaml">
+    <Page Include="Windows\AnimationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -94,15 +94,15 @@
     <Compile Include="Windows\AdjustmentWindow.xaml.cs">
       <DependentUpon>AdjustmentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AnimationWindow.xaml.cs">
-      <DependentUpon>AnimationWindow.xaml</DependentUpon>
+    <Compile Include="Windows\AnimationWindowOld.xaml.cs">
+      <DependentUpon>AnimationWindowOld.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Windows\AnimationWindowExperiment.xaml.cs">
-      <DependentUpon>AnimationWindowExperiment.xaml</DependentUpon>
+    <Compile Include="Windows\AnimationWindow.xaml.cs">
+      <DependentUpon>AnimationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\CreateMapWindow.xaml.cs">
       <DependentUpon>CreateMapWindow.xaml</DependentUpon>

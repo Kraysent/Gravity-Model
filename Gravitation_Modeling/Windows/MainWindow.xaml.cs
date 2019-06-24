@@ -22,7 +22,7 @@ namespace WPFUI
         private void MapButton_Click(object sender, RoutedEventArgs e)
         {
             Universe universe = (sender as Button).DataContext as Universe;
-            AnimationWindowExperiment window = new AnimationWindowExperiment(universe);
+            Windows.AnimationWindow window = new Windows.AnimationWindow(universe);
             //AnimationWindow window = new AnimationWindow(universe);
 
             window.ShowDialog();
